@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback — ChainMind</title>
+    <meta name="description" content="Share your feedback, report bugs, or suggest features for ChainMind." />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        .feedback-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2.5rem;
+            align-items: start;
+            max-width: 1000px;
+            margin-inline: auto;
+        }
+
+        @media(max-width:800px) {
+            .feedback-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feedback-success {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .emoji-icon {
+            width: 1.25em;
+            height: 1.25em;
+            vertical-align: -0.25em;
+            display: inline-block;
+            object-fit: contain;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon"><img src="assets/chainmind_logo.png" alt="ChainMind"></div>
+                <span>ChainMind</span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon">
+                        Home</a></li>
+                <li><a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research"
+                            class="emoji-icon"> Research</a></li>
+                <li><a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                        Learn</a></li>
+                <li><a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI"
+                            class="emoji-icon"> Train AI</a></li>
+                <li><a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+                        Jobs</a></li>
+                <li><a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer"
+                            class="emoji-icon"> Thread Writer</a></li>
+                <li><a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a></li>
+                <li><a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback"
+                            class="emoji-icon"> Feedback</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="research.html" class="btn btn-primary">Ask AI →</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon"> Home</a>
+            <a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon">
+                Research</a>
+            <a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                Learn</a>
+            <a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Train
+                AI</a>
+            <a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon"> Jobs</a>
+            <a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+                Thread Writer</a>
+            <a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a>
+            <a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon">
+                Feedback</a>
+        </div>
+    </nav>
+
+    <div class="orb orb-cyan"
+        style="width:400px;height:400px;top:50px;right:-130px;position:fixed;z-index:0;pointer-events:none;opacity:0.4">
+    </div>
+    <div class="orb orb-purple"
+        style="width:350px;height:350px;bottom:100px;left:-100px;position:fixed;z-index:0;pointer-events:none;opacity:0.35">
+    </div>
+
+    <div class="page-header">
+        <div class="eyebrow"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon">
+            Feedback</div>
+        <h1>Share your <span class="grad-text">thoughts</span></h1>
+        <p>Bug reports, feature ideas, general feedback — it all goes straight to the team inbox at <strong
+                style="color:var(--purple-1)">ugwucollins881@gmail.com</strong></p>
+    </div>
+
+    <div class="container section" style="padding-top:0;position:relative;z-index:1">
+        <div class="feedback-layout">
+            <!-- Main form -->
+            <div>
+                <div class="card" style="padding:2rem;overflow:hidden">
+
+                    <!-- Form -->
+                    <form id="feedback-form">
+                        <!-- Feedback type -->
+                        <div class="form-row">
+                            <label>Feedback Type *</label>
+                            <div class="feedback-type-grid">
+                                <label class="type-option">
+                                    <input type="radio" name="fb-type" value="bug" />
+                                    <span class="type-icon">🐛</span>
+                                    <span class="type-label">Bug Report</span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="radio" name="fb-type" value="feature" />
+                                    <span class="type-icon">💡</span>
+                                    <span class="type-label">Feature Request</span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="radio" name="fb-type" value="content" />
+                                    <span class="type-icon">📝</span>
+                                    <span class="type-label">Content Suggestion</span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="radio" name="fb-type" value="general" />
+                                    <span class="type-icon">💬</span>
+                                    <span class="type-label">General Feedback</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Star Rating -->
+                        <div class="form-row">
+                            <label>Overall Rating *</label>
+                            <div class="rating-stars">
+                                <button type="button" class="star-btn" data-star="1">★</button>
+                                <button type="button" class="star-btn" data-star="2">★</button>
+                                <button type="button" class="star-btn" data-star="3">★</button>
+                                <button type="button" class="star-btn" data-star="4">★</button>
+                                <button type="button" class="star-btn" data-star="5">★</button>
+                            </div>
+                        </div>
+
+                        <hr class="divider" />
+
+                        <!-- Name & Email -->
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
+                            <div>
+                                <label for="fb-name">Your Name *</label>
+                                <input class="input" id="fb-name" type="text" placeholder="Satoshi..." required />
+                            </div>
+                            <div>
+                                <label for="fb-email">Your Email (optional)</label>
+                                <input class="input" id="fb-email" type="email" placeholder="you@example.com" />
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="form-row">
+                            <label for="fb-message">Message *</label>
+                            <textarea class="input textarea" id="fb-message" rows="5"
+                                placeholder="Describe your feedback in detail..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="feedback-submit"
+                            style="width:100%;justify-content:center;padding:0.9rem;font-size:1rem">
+                            📨 Send Feedback
+                        </button>
+
+                        <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:0.75rem">
+                            Sent securely to <strong>ugwucollins881@gmail.com</strong> via EmailJS
+                        </p>
+                    </form>
+
+                    <!-- Success state -->
+                    <div class="feedback-success" id="feedback-success">
+                        <div class="success-icon">🎉</div>
+                        <h2 style="margin-bottom:0.5rem">Feedback Sent!</h2>
+                        <p style="margin-bottom:2rem">Thanks for helping ChainMind improve. We'll
+                            review your message
+                            shortly.</p>
+                        <button class="btn btn-outline" id="feedback-reset">Send Another</button>
+                    </div>
+                </div>
+
+                <!-- EmailJS setup note -->
+                <div class="card" style="padding:1.25rem;margin-top:1.25rem;border-color:rgba(245,158,11,0.3)">
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--yellow-1)">
+                        ⚙️ EmailJS
+                        Setup (One-Time)</h4>
+                    <ol
+                        style="font-size:0.82rem;color:var(--text-secondary);padding-left:1.2rem;display:flex;flex-direction:column;gap:0.4rem">
+                        <li>Sign up at <a href="https://www.emailjs.com" target="_blank"
+                                style="color:var(--cyan-1)">emailjs.com</a> (free tier — 200
+                            emails/month)</li>
+                        <li>Create a Gmail service → copy <strong>Service ID</strong></li>
+                        <li>Create a template using variables: <code
+                                style="font-family:var(--font-mono);color:var(--purple-1)">&#123;&#123;from_name&#125;&#125;</code>,
+                            <code
+                                style="font-family:var(--font-mono);color:var(--purple-1)">&#123;&#123;message&#125;&#125;</code>,
+                            <code
+                                style="font-family:var(--font-mono);color:var(--purple-1)">&#123;&#123;rating&#125;&#125;</code>
+                            etc. → copy <strong>Template ID</strong>
+                        </li>
+                        <li>Account → API Keys → copy <strong>Public Key</strong></li>
+                        <li>Open <code style="font-family:var(--font-mono);color:var(--purple-1)">js/feedback.js</code>
+                            and paste the three IDs at the top</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div style="position:sticky;top:88px;display:flex;flex-direction:column;gap:1.25rem">
+                <div class="card" style="padding:1.5rem">
+                    <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:1rem"><img
+                            src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon"> What happens
+                        next?</h4>
+                    <div style="display:flex;flex-direction:column;gap:0.85rem">
+                        <div style="display:flex;gap:0.75rem;align-items:flex-start">
+                            <div
+                                style="width:28px;height:28px;border-radius:50%;background:rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--purple-1);flex-shrink:0">
+                                1</div>
+                            <p style="font-size:0.83rem">Your feedback is emailed instantly to the
+                                team.</p>
+                        </div>
+                        <div style="display:flex;gap:0.75rem;align-items:flex-start">
+                            <div
+                                style="width:28px;height:28px;border-radius:50%;background:rgba(34,211,238,0.12);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--cyan-1);flex-shrink:0">
+                                2</div>
+                            <p style="font-size:0.83rem">We review all submissions within 48 hours.
+                            </p>
+                        </div>
+                        <div style="display:flex;gap:0.75rem;align-items:flex-start">
+                            <div
+                                style="width:28px;height:28px;border-radius:50%;background:rgba(16,185,129,0.12);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--green-1);flex-shrink:0">
+                                3</div>
+                            <p style="font-size:0.83rem">Features & fixes are prioritized by vote
+                                and recurrence.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.5rem">
+                    <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem">🌐 Quick
+                        Links</h4>
+                    <div style="display:flex;flex-direction:column;gap:0.5rem">
+                        <a href="research.html"
+                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><img
+                                src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon">
+                            AI Research Hub</a>
+                        <a href="learn.html"
+                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><img
+                                src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                            Web3 Glossary</a>
+                        <a href="train.html"
+                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><img
+                                src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon">
+                            Train the AI</a>
+                        <a href="jobs.html"
+                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><img
+                                src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+                            Job Board</a>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.5rem;text-align:center">
+                    <div style="font-size:2rem;margin-bottom:0.5rem">💜</div>
+                    <p style="font-size:0.83rem">ChainMind is built with love for the community.
+                        Every piece of feedback
+                        makes it better.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 ChainMind · Built for the Web3 community</p>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/feedback.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Video Studio — ChainMind</title>
+    <meta name="description"
+        content="Generate AI-powered videos from text prompts or images. 3 free trials, then unlock unlimited with ChainMind PRO." />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        .emoji-icon {
+            width: 1.25em;
+            height: 1.25em;
+            vertical-align: -0.25em;
+            display: inline-block;
+            object-fit: contain;
+        }
+
+        .studio-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media(max-width:900px) {
+            .studio-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tabs */
+        .studio-tabs {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            padding: 0.3rem;
+            border: 1px solid var(--border);
+        }
+
+        .studio-tab {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            font-family: var(--font-main);
+        }
+
+        .studio-tab.active {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--purple-1);
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.1);
+        }
+
+        .studio-tab:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form */
+        .prompt-area {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .style-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .style-option {
+            padding: 0.65rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-secondary);
+        }
+
+        .style-option.active {
+            border-color: var(--purple-1);
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--purple-1);
+        }
+
+        .style-option:hover:not(.active) {
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        /* Upload zone */
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-md);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(139, 92, 246, 0.02);
+            position: relative;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--purple-1);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .upload-zone.drag-over {
+            border-color: var(--cyan-1);
+            background: rgba(34, 211, 238, 0.05);
+        }
+
+        .upload-zone input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .upload-preview {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .upload-preview img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        /* Progress */
+        .gen-progress {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-top: 0.75rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--grad-primary);
+            border-radius: 99px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
+        /* Video result */
+        .video-result {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .video-result video {
+            width: 100%;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: #000;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        /* Trial badge */
+        .trial-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .trial-badge.free {
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            color: var(--green-1);
+        }
+
+        .trial-badge.paid {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--purple-1);
+        }
+
+        .trial-badge.exhausted {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* Sidebar cards */
+        .sidebar-card {
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-card h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .gallery-item {
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--purple-1);
+        }
+
+        .gallery-item video {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item .gallery-label {
+            font-size: 0.72rem;
+            padding: 0.3rem 0.5rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Paywall overlay */
+        .paywall-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(3, 7, 18, 0.92);
+            backdrop-filter: blur(12px);
+            padding: 1rem;
+        }
+
+        .paywall-overlay.open {
+            display: flex;
+        }
+
+        .paywall-card {
+            background: var(--bg-dark);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-lg);
+            max-width: 480px;
+            width: 100%;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paywall-card::before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon"><img src="assets/chainmind_logo.png" alt="ChainMind"></div>
+                <span>ChainMind</span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon">
+                        Home</a></li>
+                <li><a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research"
+                            class="emoji-icon"> Research</a></li>
+                <li><a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                        Learn</a></li>
+                <li><a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI"
+                            class="emoji-icon"> Train AI</a></li>
+                <li><a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+                        Jobs</a></li>
+                <li><a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer"
+                            class="emoji-icon"> Threads</a></li>
+                <li><a href="video.html" class="active"><img src="assets/icon_video.png" alt="Video" class="emoji-icon">
+                        Video</a></li>
+                <li><a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback"
+                            class="emoji-icon"> Feedback</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="research.html" class="btn btn-primary">Ask AI →</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon"> Home</a>
+            <a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon">
+                Research</a>
+            <a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                Learn</a>
+            <a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Train
+                AI</a>
+            <a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon"> Jobs</a>
+            <a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+                Threads</a>
+            <a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a>
+            <a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon">
+                Feedback</a>
+        </div>
+    </nav>
+
+    <div class="orb orb-purple"
+        style="width:500px;height:500px;top:-100px;right:-150px;position:fixed;z-index:0;pointer-events:none"></div>
+
+    <div class="page-header">
+        <div class="eyebrow"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> AI Video Studio</div>
+        <h1>Generate <span class="grad-text">AI Videos</span></h1>
+        <p>Create stunning videos from text prompts or images. Powered by AI, designed for Web3 creators.</p>
+    </div>
+
+    <div class="container section" style="padding-top:0;position:relative;z-index:1">
+        <div class="studio-layout">
+            <!-- Main content -->
+            <div>
+                <!-- Trial badge -->
+                <div id="trial-badge" class="trial-badge free">
+                    <span>✨</span>
+                    <span id="trial-text">3 free generations remaining</span>
+                </div>
+
+                <!-- Tabs -->
+                <div class="studio-tabs">
+                    <button class="studio-tab active" data-tab="text">🎬 Text to Video</button>
+                    <button class="studio-tab" data-tab="image">🖼️ Image to Video</button>
+                </div>
+
+                <!-- Text-to-Video Tab -->
+                <div class="tab-content active" id="tab-text">
+                    <div class="card" style="padding:1.5rem">
+                        <label>Describe your video</label>
+                        <textarea class="input prompt-area" id="text-prompt"
+                            placeholder="A futuristic blockchain city with neon lights, digital tokens flowing through transparent data streams, cinematic lighting..."></textarea>
+
+                        <label style="margin-top:1.25rem">Style</label>
+                        <div class="style-selector" id="style-selector">
+                            <div class="style-option active" data-style="cinematic">🎬 Cinematic</div>
+                            <div class="style-option" data-style="anime">🎨 Anime</div>
+                            <div class="style-option" data-style="realistic">📷 Realistic</div>
+                        </div>
+
+                        <button class="btn btn-primary" id="gen-text-btn" style="width:100%;justify-content:center">
+                            <img src="assets/icon_video.png" alt="" class="emoji-icon"> Generate Video
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Image-to-Video Tab -->
+                <div class="tab-content" id="tab-image">
+                    <div class="card" style="padding:1.5rem">
+                        <label>Upload an image to animate</label>
+                        <div class="upload-zone" id="upload-zone">
+                            <input type="file" accept="image/*" id="image-upload">
+                            <span class="upload-icon">🖼️</span>
+                            <div style="font-weight:600;margin-bottom:0.3rem">Drop an image here or click to browse
+                            </div>
+                            <div style="font-size:0.78rem;color:var(--text-muted)">PNG, JPG, WebP · Max 10MB</div>
+                        </div>
+                        <div class="upload-preview" id="upload-preview">
+                            <img id="preview-img" src="" alt="Preview">
+                        </div>
+
+                        <label style="margin-top:1.25rem">Motion prompt (optional)</label>
+                        <input class="input" id="motion-prompt" type="text"
+                            placeholder="Camera slowly pans right, particles float upward...">
+
+                        <button class="btn btn-primary" id="gen-image-btn"
+                            style="width:100%;justify-content:center;margin-top:1.25rem">
+                            <img src="assets/icon_video.png" alt="" class="emoji-icon"> Animate Image
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress -->
+                <div class="gen-progress" id="gen-progress">
+                    <div class="card" style="padding:1.25rem">
+                        <div style="display:flex;align-items:center;gap:0.75rem">
+                            <div class="ai-status-dot" style="width:12px;height:12px"></div>
+                            <strong style="font-size:0.9rem" id="progress-label">Generating your video...</strong>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <div class="progress-status">
+                            <span id="progress-stage">Initializing model...</span>
+                            <span id="progress-pct">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Result -->
+                <div class="video-result" id="video-result">
+                    <div class="card" style="padding:1.5rem">
+                        <video id="result-video" controls autoplay loop></video>
+                        <div class="video-actions">
+                            <a id="download-btn" class="btn btn-primary" download="chainmind_video.mp4">⬇️ Download</a>
+                            <button class="btn btn-outline" id="regenerate-btn">🔄 Regenerate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar" style="position:sticky;top:88px">
+                <div class="card sidebar-card">
+                    <h4>💡 Tips for Best Results</h4>
+                    <div
+                        style="display:flex;flex-direction:column;gap:0.65rem;font-size:0.82rem;color:var(--text-secondary)">
+                        <div>🎬 <strong style="color:var(--text-primary)">Be specific:</strong> "A neon blockchain city
+                            at sunset" works better than "city"</div>
+                        <div>🎨 <strong style="color:var(--text-primary)">Add style cues:</strong> "cinematic lighting",
+                            "drone shot", "slow motion"</div>
+                        <div>⏱️ <strong style="color:var(--text-primary)">Keep it simple:</strong> One scene per
+                            generation for best quality</div>
+                        <div>🖼️ <strong style="color:var(--text-primary)">High-res images:</strong> Better input =
+                            better animation output</div>
+                    </div>
+                </div>
+
+                <div class="card sidebar-card">
+                    <h4>🎥 Recent Generations</h4>
+                    <div id="video-gallery">
+                        <p style="color:var(--text-muted);font-size:0.82rem">No videos generated yet. Create your first
+                            one!</p>
+                    </div>
+                </div>
+
+                <div class="card sidebar-card">
+                    <h4>⚡ Powered By</h4>
+                    <div style="font-size:0.82rem;color:var(--text-secondary)">
+                        <div style="margin-bottom:0.4rem"><strong>Text-to-Video:</strong> Minimax Video-01</div>
+                        <div style="margin-bottom:0.4rem"><strong>Image-to-Video:</strong> Stable Video Diffusion</div>
+                        <div style="color:var(--text-muted);font-size:0.75rem;margin-top:0.5rem">API secured via
+                            Cloudflare Worker proxy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paywall Overlay -->
+    <div class="paywall-overlay" id="paywall-overlay">
+        <div class="paywall-card">
+            <div style="font-size:3rem;margin-bottom:1rem">🎬</div>
+            <h2 style="margin-bottom:0.5rem">Unlock <span class="grad-text">Unlimited Videos</span></h2>
+            <p style="margin-bottom:1.5rem;font-size:0.95rem">You've used all 3 free generations. Subscribe to ChainMind
+                PRO for unlimited video creation.</p>
+            <div
+                style="display:flex;flex-direction:column;gap:0.5rem;text-align:left;margin-bottom:1.5rem;max-width:300px;margin-inline:auto">
+                <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.88rem;color:var(--text-secondary)">
+                    <span style="color:var(--green-1)">✓</span> Unlimited video generations
+                </div>
+                <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.88rem;color:var(--text-secondary)">
+                    <span style="color:var(--green-1)">✓</span> Text-to-video + image-to-video
+                </div>
+                <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.88rem;color:var(--text-secondary)">
+                    <span style="color:var(--green-1)">✓</span> Thread Writer PRO features
+                </div>
+                <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.88rem;color:var(--text-secondary)">
+                    <span style="color:var(--green-1)">✓</span> Priority generation queue
+                </div>
+            </div>
+            <button class="btn btn-primary" id="subscribe-btn"
+                style="width:100%;justify-content:center;font-size:1rem;padding:0.9rem">
+                Subscribe — $10/month 💳
+            </button>
+            <div style="margin-top:0.75rem;font-size:0.78rem;color:var(--text-muted)">💳 Secure card payment · Cancel
+                anytime</div>
+            <button class="btn btn-ghost" id="close-paywall"
+                style="margin-top:1rem;width:100%;justify-content:center">Close</button>
+            <div style="margin-top:1rem">
+                <a href="#" id="restore-access-btn"
+                    style="font-size:0.82rem;color:var(--purple-1);text-decoration:underline;cursor:pointer">
+                    Already subscribed? Restore access →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 ChainMind · <a href="feedback.html">Share Feedback</a></p>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/tweet-premium.js"></script>
+    <script src="js/video.js"></script>
+    <script>
+        // Wire video paywall subscribe button to Paystack card payment
+        const vSubBtn = document.getElementById('subscribe-btn');
+        const vPaywall = document.getElementById('paywall-overlay');
+        if (vSubBtn && window.TweetPremium) {
+            vSubBtn.addEventListener('click', async () => {
+                const origText = vSubBtn.innerHTML;
+                try {
+                    vSubBtn.innerHTML = '⏳ Opening payment...';
+                    vSubBtn.disabled = true;
+                    await window.TweetPremium.payWithCard();
+                    vSubBtn.innerHTML = '✅ Payment confirmed!';
+                    if (window.showToast) window.showToast('ChainMind PRO activated! 🎉', 'success');
+                    setTimeout(() => {
+                        if (vPaywall) vPaywall.classList.remove('open');
+                        location.reload();
+                    }, 1500);
+                } catch (err) {
+                    vSubBtn.innerHTML = origText;
+                    vSubBtn.disabled = false;
+                    if (window.showToast) window.showToast(err.message, 'error');
+                }
+            });
+        }
+
+        // Wire restore access button
+        const vRestoreBtn = document.getElementById('restore-access-btn');
+        if (vRestoreBtn && window.TweetPremium) {
+            vRestoreBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    vRestoreBtn.textContent = '⏳ Checking...';
+                    await window.TweetPremium.restoreSubscription();
+                    if (window.showToast) window.showToast('Welcome back! PRO restored 🎉', 'success');
+                    setTimeout(() => {
+                        if (vPaywall) vPaywall.classList.remove('open');
+                        location.reload();
+                    }, 1200);
+                } catch (err) {
+                    vRestoreBtn.textContent = 'Already subscribed? Restore access →';
+                    if (window.showToast) window.showToast(err.message, 'error');
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

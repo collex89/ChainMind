@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web3 Jobs — ChainMind</title>
+    <meta name="description"
+        content="Find your next Web3 job — Solidity, Rust, ZK, DevRel, DAO operations, and more. Filter by type, location, and tech stack." />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon"><img src="assets/chainmind_logo.png" alt="ChainMind"></div>
+                <span>ChainMind</span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon">
+                        Home</a></li>
+                <li><a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research"
+                            class="emoji-icon"> Research</a></li>
+                <li><a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                        Learn</a></li>
+                <li><a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI"
+                            class="emoji-icon"> Train AI</a></li>
+                <li><a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+                        Jobs</a></li>
+                <li><a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer"
+                            class="emoji-icon"> Thread Writer</a></li>
+                <li><a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a></li>
+                <li><a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback"
+                            class="emoji-icon"> Feedback</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="research.html" class="btn btn-primary">Ask AI →</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon"> Home</a>
+            <a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon">
+                Research</a>
+            <a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                Learn</a>
+            <a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Train
+                AI</a>
+            <a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon"> Jobs</a>
+            <a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+                Thread Writer</a>
+            <a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a>
+            <a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon">
+                Feedback</a>
+        </div>
+    </nav>
+
+    <div class="orb orb-purple"
+        style="width:450px;height:450px;top:100px;left:-150px;position:fixed;z-index:0;pointer-events:none;opacity:0.4">
+    </div>
+
+    <div class="page-header">
+        <div class="eyebrow"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+            Web3 Job Board</div>
+        <h1>Find your <span class="grad-text">Web3 Career</span></h1>
+        <p>Curated opportunities across DeFi, NFTs, Layer 2, ZK, DAO operations, and more. Filter by role,
+            stack, or
+            location.</p>
+    </div>
+
+    <div class="container" style="position:relative;z-index:1">
+        <!-- Search -->
+        <div class="search-bar-wrap" style="margin-bottom:1.5rem">
+            <span class="search-icon"><img src="assets/icon_research_1771850004375.png" alt="Research"
+                    class="emoji-icon"></span>
+            <input class="input" id="jobs-search" type="search" placeholder="Search roles, companies, tech stacks..." />
+        </div>
+
+        <!-- Filter toolbar -->
+        <div class="card" style="padding:1.25rem;margin-bottom:2rem;backdrop-filter:blur(18px)">
+            <div style="display:flex;flex-direction:column;gap:1rem">
+                <div>
+                    <div class="section-label" style="margin-bottom:0.5rem">Job Type</div>
+                    <div class="chip-group" id="type-chips"></div>
+                </div>
+                <hr class="divider" style="margin:0" />
+                <div>
+                    <div class="section-label" style="margin-bottom:0.5rem">Location</div>
+                    <div class="chip-group" id="loc-chips"></div>
+                </div>
+                <hr class="divider" style="margin:0" />
+                <div>
+                    <div class="section-label" style="margin-bottom:0.5rem">Tech Stack</div>
+                    <div class="chip-group" id="stack-chips"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Count & grid -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+            <span style="font-size:0.85rem;color:var(--text-muted)" id="jobs-count">Loading...</span>
+            <div style="display:flex;gap:0.5rem;align-items:center;font-size:0.8rem;color:var(--text-muted)">
+                <span>💾</span> Save jobs to apply later
+            </div>
+        </div>
+
+        <div class="jobs-grid" id="jobs-grid"></div>
+
+        <div style="text-align:center;padding:3rem 0">
+            <p style="color:var(--text-muted);font-size:0.9rem">Want to post a Web3 job? <a href="feedback.html"
+                    style="color:var(--purple-1)">Contact us →</a></p>
+        </div>
+    </div>
+
+    <!-- Career Tips Banner -->
+    <div class="container" style="margin-bottom:4rem;position:relative;z-index:1">
+        <div class="card" style="padding:2rem">
+            <h3 style="margin-bottom:1rem">🚀 Web3 Career Tips</h3>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem">
+                <div
+                    style="padding:1rem;background:rgba(139,92,246,0.06);border-radius:var(--radius-sm);border:1px solid rgba(139,92,246,0.15)">
+                    <div style="font-size:1.25rem;margin-bottom:0.5rem"><img src="assets/icon_layer2_1771850044279.png"
+                            alt="Layer 2" class="emoji-icon">
+                    </div>
+                    <strong style="font-size:0.88rem">Build on-chain</strong>
+                    <p style="font-size:0.8rem;margin-top:0.25rem">A GitHub with deployed contracts beats
+                        any resume.
+                        Build and ship live projects.</p>
+                </div>
+                <div
+                    style="padding:1rem;background:rgba(34,211,238,0.06);border-radius:var(--radius-sm);border:1px solid rgba(34,211,238,0.15)">
+                    <div style="font-size:1.25rem;margin-bottom:0.5rem">🏆</div>
+                    <strong style="font-size:0.88rem">Win hackathons</strong>
+                    <p style="font-size:0.8rem;margin-top:0.25rem">ETHGlobal, Solana Breakpoint, and
+                        Chainlink Hackathon
+                        all actively recruit winners.</p>
+                </div>
+                <div
+                    style="padding:1rem;background:rgba(16,185,129,0.06);border-radius:var(--radius-sm);border:1px solid rgba(16,185,129,0.15)">
+                    <div style="font-size:1.25rem;margin-bottom:0.5rem">🤝</div>
+                    <strong style="font-size:0.88rem">Join DAOs</strong>
+                    <p style="font-size:0.8rem;margin-top:0.25rem">Contribute to DAOs like Gitcoin,
+                        BanklessDAO, or
+                        Developer DAO to get noticed.</p>
+                </div>
+                <div
+                    style="padding:1rem;background:rgba(245,158,11,0.06);border-radius:var(--radius-sm);border:1px solid rgba(245,158,11,0.15)">
+                    <div style="font-size:1.25rem;margin-bottom:0.5rem"><img src="assets/icon_learn_1771850086017.png"
+                            alt="Learn" class="emoji-icon"></div>
+                    <strong style="font-size:0.88rem">Master the stack</strong>
+                    <p style="font-size:0.8rem;margin-top:0.25rem">Solidity + TypeScript + Hardhat is the
+                        baseline. ZK
+                        and Rust knowledge commands a premium.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 ChainMind · <a href="feedback.html">Share Feedback</a></p>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/sheets-loader.js"></script>
+    <script src="js/jobs.js"></script>
+</body>
+
+</html>

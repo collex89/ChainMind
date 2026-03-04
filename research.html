@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Research Hub — ChainMind</title>
+    <meta name="description" content="Ask AI anything about Web3 — DeFi, NFTs, Layer 2, DAOs, wallets, and more." />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        .research-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 88px;
+        }
+
+        .sidebar-card {
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-card h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .source-item {
+            display: flex;
+            gap: 0.6rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.82rem;
+        }
+
+        .source-item:last-child {
+            border-bottom: none;
+        }
+
+        .source-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--purple-1);
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        @media(max-width:900px) {
+            .research-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        .emoji-icon {
+            width: 1.25em;
+            height: 1.25em;
+            vertical-align: -0.25em;
+            display: inline-block;
+            object-fit: contain;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon"><img src="assets/chainmind_logo.png" alt="ChainMind"></div>
+                <span>ChainMind</span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon">
+                        Home</a></li>
+                <li><a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research"
+                            class="emoji-icon"> Research</a></li>
+                <li><a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                        Learn</a></li>
+                <li><a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI"
+                            class="emoji-icon"> Train AI</a></li>
+                <li><a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+                        Jobs</a></li>
+                <li><a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer"
+                            class="emoji-icon"> Thread Writer</a></li>
+                <li><a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a></li>
+                <li><a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback"
+                            class="emoji-icon"> Feedback</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="research.html" class="btn btn-primary">Ask AI →</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon"> Home</a>
+            <a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon">
+                Research</a>
+            <a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                Learn</a>
+            <a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Train
+                AI</a>
+            <a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon"> Jobs</a>
+            <a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+                Thread Writer</a>
+            <a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a>
+            <a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon">
+                Feedback</a>
+        </div>
+    </nav>
+
+    <div class="orb orb-purple"
+        style="width:500px;height:500px;top:-100px;left:-150px;position:fixed;z-index:0;pointer-events:none"></div>
+
+    <div class="page-header">
+        <div class="eyebrow"> AI Research Hub</div>
+        <h1>Ask <span class="grad-text">anything</span> about Web3</h1>
+        <p>Powered by curated Web3 knowledge and community training. Get structured, sourced answers
+            instantly.</p>
+    </div>
+
+    <!-- Suggestion chips -->
+    <div class="container" style="margin-bottom:1.5rem;position:relative;z-index:1">
+        <div class="chip-group" style="justify-content:center;flex-wrap:wrap">
+            <button class="chip suggestion-chip" data-q="What is Web3?">🌐 What is Web3?</button>
+            <button class="chip suggestion-chip" data-q="What is DeFi?"><img src="assets/icon_defi_1771850023345.png"
+                    alt="DeFi" class="emoji-icon"> DeFi</button>
+            <button class="chip suggestion-chip" data-q="Explain Layer 2 scaling">🔷 Layer 2</button>
+            <button class="chip suggestion-chip" data-q="How do NFTs work?">🎨 NFTs</button>
+            <button class="chip suggestion-chip" data-q="What is a DAO?"><img src="assets/icon_dao_1771850564025.png"
+                    alt="DAO" class="emoji-icon"> DAOs</button>
+            <button class="chip suggestion-chip" data-q="Explain ZK rollups">🔬 ZK Rollups</button>
+            <button class="chip suggestion-chip" data-q="What is blockchain?">⛓️ Blockchain</button>
+            <button class="chip suggestion-chip" data-q="What is Ethereum?">💎 Ethereum</button>
+            <button class="chip suggestion-chip" data-q="What is Bitcoin?">₿ Bitcoin</button>
+            <button class="chip suggestion-chip" data-q="What is Solana?">☀️ Solana</button>
+            <button class="chip suggestion-chip" data-q="What is impermanent loss?">📉 Impermanent
+                Loss</button>
+            <button class="chip suggestion-chip" data-q="What are stablecoins?">🏦 Stablecoins</button>
+        </div>
+    </div>
+
+    <div class="container section" style="padding-top:0;position:relative;z-index:1">
+        <div class="research-layout">
+            <!-- Main chat -->
+            <div>
+                <div class="ai-chat-wrap">
+                    <div class="ai-chat-header">
+                        <div class="ai-avatar" style="width:40px;height:40px"><img
+                                src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon">
+                        </div>
+                        <div>
+                            <div style="font-weight:700;font-size:0.95rem">ChainMind Research Assistant
+                            </div>
+                            <div
+                                style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:0.4rem">
+                                <div class="ai-status-dot"></div> Online · Trained on 100+ Web3 topics
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-chat-body" id="chat-body">
+                        <!-- Welcome message -->
+                        <div class="ai-message">
+                            <div class="ai-avatar"><img src="assets/icon_robot_1771850102245.png" alt="Train AI"
+                                    class="emoji-icon"></div>
+                            <div class="ai-bubble">
+                                👋 Welcome to the <strong>ChainMind Research Hub</strong>!<br><br>
+                                I can help you understand anything in the Web3 ecosystem — from <strong>DeFi
+                                    protocols</strong> and <strong>NFT standards</strong> to <strong>Layer 2
+                                    scaling</strong>, <strong>DAOs</strong>, <strong>wallets</strong>, and
+                                blockchain
+                                fundamentals.<br><br>
+                                Try a suggestion above, or ask me anything like <em>"What is impermanent
+                                    loss?"</em> or
+                                <em>"How do ZK rollups work?"</em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-input-row">
+                        <input class="input" id="chat-input" type="text" placeholder="Ask anything about Web3..."
+                            autocomplete="off" />
+                        <button class="btn btn-primary" id="send-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M2 21L23 12 2 3v7l15 2-15 2v7z" />
+                            </svg>
+                            Ask
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="card sidebar-card">
+                    <h4>📚 Topics Covered</h4>
+                    <div style="display:flex;flex-direction:column;gap:0.35rem;max-height:400px;overflow-y:auto">
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start" data-q="What is Web3?">🌐
+                            Web3 Overview</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is DeFi?"><img src="assets/icon_defi_1771850023345.png" alt="DeFi"
+                                class="emoji-icon">
+                            DeFi & Protocols</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="How do NFTs work?">🎨 NFTs & Digital Assets</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="Explain Layer 2 scaling">🔷 Layer 2 Scaling</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is a DAO?"><img src="assets/icon_dao_1771850564025.png" alt="DAO"
+                                class="emoji-icon"> DAOs & Governance</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is blockchain?">⛓️ Blockchain Basics</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is wallet security?">🔐 Wallets & Security</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What are smart contracts?">📝 Smart Contracts</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="Explain ZK rollups">🔬 Zero-Knowledge Proofs</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What are stablecoins?">🏦 Stablecoins</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is Ethereum?">💎 Ethereum</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is Bitcoin?">₿ Bitcoin</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is Solana?">☀️ Solana</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What is impermanent loss?">📉 Impermanent Loss</button>
+                        <button class="chip suggestion-chip text-left"
+                            style="border-radius:var(--radius-sm);justify-content:flex-start"
+                            data-q="What are gas fees?">⛽ Gas Fees</button>
+                    </div>
+                </div>
+
+                <div class="card sidebar-card">
+                    <h4>🕐 Search History</h4>
+                    <div id="search-history" style="display:flex;flex-direction:column;gap:0.35rem">
+                        <span style="color:var(--text-muted);font-size:0.82rem">No history yet</span>
+                    </div>
+                </div>
+
+                <div class="card sidebar-card">
+                    <h4><img src="assets/icon_layer2_1771850044279.png" alt="Layer 2" class="emoji-icon">
+                        Sources</h4>
+                    <div class="source-item">
+                        <div class="source-dot"></div><a href="learn.html"
+                            style="color:var(--text-secondary);font-size:0.82rem">ChainMind Glossary (100+
+                            terms)</a>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-dot"></div><span style="color:var(--text-secondary)">Community
+                            Training
+                            Submissions</span>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-dot"></div><span style="color:var(--text-secondary)">Curated
+                            Protocol
+                            Knowledge Base</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 ChainMind · <a href="feedback.html">Share Feedback</a></p>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/research.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thread Writer PRO — ChainMind</title>
+    <meta name="description"
+        content="AI-powered Web3 document analyzer & thread writer. Upload documents, extract key points, generate viral tweet threads. Premium feature — $10/month." />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        /* ─── Layout ─────────────────────────────────────────── */
+        .tweet-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .tweet-sidebar {
+            position: sticky;
+            top: 88px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media(max-width:900px) {
+            .tweet-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .tweet-sidebar {
+                position: static;
+            }
+        }
+
+        /* ─── Template selector ──────────────────────────────── */
+        .tmpl-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.65rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tmpl-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .tmpl-btn .tmpl-icon {
+            font-size: 1.4rem;
+        }
+
+        .tmpl-btn:hover {
+            border-color: var(--purple-1);
+            background: rgba(139, 92, 246, 0.06);
+            color: var(--text-primary);
+        }
+
+        .tmpl-btn.active {
+            border-color: var(--purple-1);
+            background: rgba(139, 92, 246, 0.12);
+            color: var(--purple-1);
+        }
+
+        /* ─── Tweet preview cards ───────────────────────────── */
+        .tweet-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem;
+            transition: var(--transition);
+        }
+
+        .tweet-card:hover {
+            border-color: rgba(139, 92, 246, 0.35);
+        }
+
+        .tweet-card-inner {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .tweet-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--grad-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .tweet-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tweet-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .tweet-handle {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .tweet-num {
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 99px;
+            padding: 0.15rem 0.5rem;
+        }
+
+        .tweet-text {
+            width: 100%;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            resize: vertical;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .tweet-text:focus {
+            outline: none;
+            border-color: var(--border-glow);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .tweet-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .char-pill {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 99px;
+            padding: 0.2rem 0.55rem;
+            font-weight: 600;
+        }
+
+        .char-pill.over {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.12);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            padding: 0.3rem 0.65rem;
+            transition: var(--transition);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        /* ─── Thread connector ──────────────────────────────── */
+        .thread-connector {
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(139, 92, 246, 0.5), rgba(34, 211, 238, 0.3));
+            height: 24px;
+            margin-left: 20px;
+        }
+
+        /* ─── Single tweet ──────────────────────────────────── */
+        #single-tweet-container {
+            margin-top: 1.25rem;
+        }
+
+        .single-tweet-wrap {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .single-tweet-wrap textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            resize: vertical;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 110px;
+        }
+
+        .single-tweet-wrap textarea:focus {
+            outline: none;
+        }
+
+        /* ─── Draft items ───────────────────────────────────── */
+        .draft-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.65rem;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ─── Action toolbar ────────────────────────────────── */
+        .action-bar {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1.25rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           PREMIUM STYLES
+           ═══════════════════════════════════════════════════════════════ */
+
+        /* ─── Premium Overlay / Paywall ──────────────────────── */
+        .premium-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(4, 13, 26, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .premium-card {
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            padding: 3rem 2.5rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(34, 211, 238, 0.04) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 0 80px rgba(139, 92, 246, 0.15), 0 25px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(139, 92, 246, 0.08), transparent, rgba(34, 211, 238, 0.05), transparent);
+            animation: spin-slow 12s linear infinite;
+        }
+
+        .premium-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .premium-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .premium-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .premium-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .premium-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.35rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .premium-price .amount {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .premium-price .period {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .premium-price .currency {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .premium-features {
+            text-align: left;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .premium-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .premium-feature .feat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            background: rgba(139, 92, 246, 0.12);
+        }
+
+        .subscribe-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--grad-primary);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(139, 92, 246, 0.5);
+            transition: var(--transition);
+            font-family: var(--font-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .subscribe-btn:hover {
+            box-shadow: 0 6px 36px rgba(139, 92, 246, 0.7);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .subscribe-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .subscribe-note {
+            margin-top: 1rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+        }
+
+        /* ─── PRO Badge ──────────────────────────────────────── */
+        .pro-badge {
+            display: none;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            background: var(--grad-primary);
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            box-shadow: 0 2px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        /* ─── Document Upload Zone ───────────────────────────── */
+        .doc-upload-zone {
+            border: 2px dashed rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(139, 92, 246, 0.03);
+            position: relative;
+        }
+
+        .doc-upload-zone:hover {
+            border-color: var(--purple-1);
+            background: rgba(139, 92, 246, 0.06);
+        }
+
+        .doc-upload-zone.drag-over {
+            border-color: var(--cyan-1);
+            background: rgba(34, 211, 238, 0.08);
+            transform: scale(1.01);
+        }
+
+        .doc-upload-zone.has-file {
+            border-style: solid;
+            border-color: var(--green-1);
+            background: rgba(16, 185, 129, 0.06);
+        }
+
+        .doc-upload-zone.processing {
+            border-color: var(--yellow-1);
+            background: rgba(245, 158, 11, 0.06);
+        }
+
+        .doc-upload-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-upload-label {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .doc-upload-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .doc-file-name {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--green-1);
+            margin-bottom: 0.2rem;
+        }
+
+        .doc-file-stats {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .doc-loading {
+            color: var(--yellow-1);
+            font-size: 0.85rem;
+            animation: glow-pulse 1.5s ease infinite;
+        }
+
+        .doc-clear-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            font-size: 0.7rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .doc-clear-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* ─── Tweet Count Control ──────────────────────────── */
+        .tweet-count-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tweet-count-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .tweet-count-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--grad-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+        }
+
+        .tweet-count-value {
+            min-width: 50px;
+            padding: 0.4rem 0.75rem;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--purple-1);
+        }
+
+        /* ─── Premium doc template (new addition) ─────────── */
+        .tmpl-btn.tmpl-pro {
+            border-color: rgba(139, 92, 246, 0.4);
+            background: rgba(139, 92, 246, 0.08);
+            position: relative;
+        }
+
+        .tmpl-btn.tmpl-pro::after {
+            content: 'PRO';
+            font-size: 0.55rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            background: var(--grad-primary);
+            color: #fff;
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+        }
+
+        .emoji-icon {
+            width: 1.25em;
+            height: 1.25em;
+            vertical-align: -0.25em;
+            display: inline-block;
+            object-fit: contain;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon"><img src="assets/chainmind_logo.png" alt="ChainMind"></div>
+                <span>ChainMind</span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon">
+                        Home</a></li>
+                <li><a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research"
+                            class="emoji-icon"> Research</a></li>
+                <li><a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                        Learn</a></li>
+                <li><a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI"
+                            class="emoji-icon"> Train AI</a></li>
+                <li><a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+                        Jobs</a></li>
+                <li><a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer"
+                            class="emoji-icon"> Thread Writer</a></li>
+                <li><a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a></li>
+                <li><a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback"
+                            class="emoji-icon"> Feedback</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="research.html" class="btn btn-primary">Ask AI →</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon"> Home</a>
+            <a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon">
+                Research</a>
+            <a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                Learn</a>
+            <a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Train
+                AI</a>
+            <a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon"> Jobs</a>
+            <a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+                Thread Writer</a>
+            <a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a>
+            <a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon">
+                Feedback</a>
+        </div>
+    </nav>
+
+    <!-- ═══ PREMIUM PAYWALL OVERLAY ═══ -->
+    <div class="premium-overlay" id="premium-overlay" style="display:none">
+        <div class="premium-card">
+            <div class="premium-icon">🔒</div>
+            <div class="premium-title">Thread Writer <span class="grad-text">PRO</span></div>
+            <p class="premium-subtitle">Upload documents, extract key insights, and generate
+                perfectly structured tweet
+                threads — powered by AI & Web3 knowledge.</p>
+
+            <div class="premium-price">
+                <span class="amount">$10</span>
+                <span class="period">/ month</span>
+                <span class="currency">(USD)</span>
+            </div>
+
+            <div class="premium-features">
+                <div class="premium-feature">
+                    <div class="feat-icon">📄</div>
+                    <span><strong>Document Analysis</strong> — Upload PDFs, TXT, or Markdown
+                        files</span>
+                </div>
+                <div class="premium-feature">
+                    <div class="feat-icon">🧠</div>
+                    <span><strong>Smart Extraction</strong> — AI extracts the most vital points
+                        automatically</span>
+                </div>
+                <div class="premium-feature">
+                    <div class="feat-icon">🔢</div>
+                    <span><strong>Custom Thread Length</strong> — Choose exactly how many tweets
+                        to
+                        generate</span>
+                </div>
+                <div class="premium-feature">
+                    <div class="feat-icon">📚</div>
+                    <span><strong>Knowledge-Enhanced</strong> — Cross-references ChainMind's
+                        trained knowledge
+                        base</span>
+                </div>
+                <div class="premium-feature">
+                    <div class="feat-icon"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer"
+                            class="emoji-icon"></div>
+                    <span><strong>Tweet-Perfect Format</strong> — Every tweet ≤280 chars,
+                        structured for
+                        virality</span>
+                </div>
+            </div>
+
+            <button class="subscribe-btn" id="subscribe-btn">
+                💳 Pay $10 with Card
+            </button>
+
+            <div class="subscribe-note">
+                💳 Secure card payment · 30-day access
+            </div>
+
+            <div style="margin-top:1.25rem">
+                <a href="#" id="restore-access-btn"
+                    style="font-size:0.82rem;color:var(--purple-1);text-decoration:underline;cursor:pointer">
+                    Already subscribed? Restore access →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="orb orb-cyan"
+        style="width:500px;height:500px;top:-100px;right:-150px;position:fixed;z-index:0;pointer-events:none;opacity:0.4">
+    </div>
+    <div class="orb orb-purple"
+        style="width:400px;height:400px;bottom:0;left:-150px;position:fixed;z-index:0;pointer-events:none;opacity:0.35">
+    </div>
+
+    <div class="page-header">
+        <div class="eyebrow"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+            Thread Writer PRO</div>
+        <h1>Go viral on <span class="grad-text">X / Twitter</span>
+            <span class="pro-badge" id="pro-status">PRO</span>
+        </h1>
+        <p>Upload documents, extract vital points, and generate ready-to-post tweet threads —
+            powered by AI and
+            ChainMind's knowledge base.</p>
+    </div>
+
+    <div class="container section" style="padding-top:0;position:relative;z-index:1">
+        <div class="tweet-layout">
+
+            <!-- ── Main column ── -->
+            <div>
+
+                <!-- Topic Suggestions -->
+                <div style="margin-bottom:1.75rem">
+                    <div class="section-label" style="margin-bottom:0.75rem"><img
+                            src="assets/icon_defi_1771850023345.png" alt="DeFi" class="emoji-icon">
+                        Quick Topics</div>
+                    <div class="chip-group" style="flex-wrap:wrap">
+                        <button class="chip topic-chip" data-topic="DeFi">DeFi</button>
+                        <button class="chip topic-chip" data-topic="NFTs">NFTs</button>
+                        <button class="chip topic-chip" data-topic="Layer 2">Layer 2</button>
+                        <button class="chip topic-chip" data-topic="DAOs">DAOs</button>
+                        <button class="chip topic-chip" data-topic="blockchain">Blockchain</button>
+                        <button class="chip topic-chip" data-topic="wallet security">Wallet
+                            Security</button>
+                        <button class="chip topic-chip" data-topic="ZK rollups">ZK Rollups</button>
+                        <button class="chip topic-chip" data-topic="impermanent loss">Impermanent
+                            Loss</button>
+                        <button class="chip topic-chip" data-topic="stablecoins">Stablecoins</button>
+                        <button class="chip topic-chip" data-topic="smart contracts">Smart
+                            Contracts</button>
+                    </div>
+                </div>
+
+                <!-- Config card -->
+                <div class="card" style="padding:1.75rem;margin-bottom:2rem">
+                    <h3 style="font-size:1rem;margin-bottom:1.25rem">⚙️ Configure your thread</h3>
+
+                    <!-- Document Upload Zone (PRO) -->
+                    <div style="margin-bottom:1.25rem">
+                        <label>📄 Upload Document <span
+                                style="font-size:0.7rem;color:var(--purple-1);font-weight:700">PRO</span></label>
+                        <div class="doc-upload-zone" id="doc-drop-zone" style="margin-top:0.4rem">
+                            <button class="doc-clear-btn" id="doc-clear-btn" title="Remove document">✕</button>
+                            <input type="file" id="doc-file-input" accept=".txt,.md,.pdf,.text,.markdown"
+                                style="display:none" />
+                            <div class="doc-upload-icon">📁</div>
+                            <div class="doc-upload-label">Drop a document here or <strong
+                                    style="color:var(--purple-1)">click to browse</strong></div>
+                            <div class="doc-upload-hint">Supports .txt, .md, .pdf · Max 10MB</div>
+                            <div id="doc-file-info" style="margin-top:0.5rem"></div>
+                        </div>
+                    </div>
+
+                    <!-- Topic input -->
+                    <div style="margin-bottom:1.25rem">
+                        <label for="tweet-topic">Topic or keyword <span
+                                style="font-size:0.75rem;color:var(--text-muted)">(optional if
+                                document
+                                uploaded)</span></label>
+                        <input class="input" id="tweet-topic" type="text"
+                            placeholder="e.g. DeFi, NFTs, ZK rollups, impermanent loss..." style="margin-top:0.4rem" />
+                    </div>
+
+                    <!-- Tone -->
+                    <div style="margin-bottom:1.25rem">
+                        <label for="tweet-tone">Tone</label>
+                        <select class="input select" id="tweet-tone" style="margin-top:0.4rem">
+                            <option value="neutral">🧊 Neutral / Balanced</option>
+                            <option value="degen">🎲 Degen / Crypto Twitter</option>
+                            <option value="professional">🏦 Professional / Analytical</option>
+                            <option value="beginner">📚 Beginner-Friendly</option>
+                            <option value="witty">😏 Witty / Contrarian</option>
+                        </select>
+                    </div>
+
+                    <!-- Thread style -->
+                    <div style="margin-bottom:1.25rem">
+                        <label style="display:block;margin-bottom:0.6rem">Thread Style</label>
+                        <div class="tmpl-grid">
+                            <button class="tmpl-btn active" data-tmpl="educational">
+                                <span class="tmpl-icon">🎓</span>Educational
+                            </button>
+                            <button class="tmpl-btn" data-tmpl="alpha">
+                                <span class="tmpl-icon"><img src="assets/icon_defi_1771850023345.png" alt="DeFi"
+                                        class="emoji-icon"></span>Alpha Drop
+                            </button>
+                            <button class="tmpl-btn" data-tmpl="opinion">
+                                <span class="tmpl-icon">💬</span>Hot Take
+                            </button>
+                            <button class="tmpl-btn" data-tmpl="howto">
+                                <span class="tmpl-icon">🛠</span>How-To Guide
+                            </button>
+                            <button class="tmpl-btn" data-tmpl="news">
+                                <span class="tmpl-icon">📰</span>News Breakdown
+                            </button>
+                            <button class="tmpl-btn tmpl-pro" data-tmpl="document">
+                                <span class="tmpl-icon">📄</span>Doc Analysis
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tweet Count (PRO) -->
+                    <div style="margin-bottom:1.5rem">
+                        <label>🔢 Number of Tweets <span
+                                style="font-size:0.7rem;color:var(--purple-1);font-weight:700">PRO</span></label>
+                        <div class="tweet-count-control" style="margin-top:0.5rem">
+                            <input type="range" class="tweet-count-slider" id="tweet-count-slider" min="3" max="20"
+                                value="8" />
+                            <div class="tweet-count-value" id="tweet-count-value">8</div>
+                        </div>
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem">
+                            <span>3 tweets</span>
+                            <span>20 tweets</span>
+                        </div>
+                    </div>
+
+                    <!-- Generate buttons -->
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+                        <button class="btn btn-primary" id="generate-btn"
+                            style="flex:1;justify-content:center;padding:0.85rem">
+                            🧵 Generate Thread
+                        </button>
+                        <button class="btn btn-outline" id="gen-single-btn"
+                            style="flex:1;justify-content:center;padding:0.85rem">
+                            <img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+                            Craft Single Tweet
+                        </button>
+                    </div>
+
+                    <!-- Single tweet output -->
+                    <div id="single-tweet-container" style="display:none">
+                        <div style="height:1px;background:var(--border);margin:1.25rem 0"></div>
+                        <label style="margin-bottom:0.5rem;display:block">✏️ Your Tweet <span
+                                style="font-size:0.75rem;color:var(--text-muted)">(edit
+                                freely)</span></label>
+                        <div class="single-tweet-wrap">
+                            <textarea id="single-tweet-input" rows="4"
+                                placeholder="Your tweet will appear here..."></textarea>
+                            <div
+                                style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:0.6rem;margin-top:0.4rem">
+                                <span id="char-count"
+                                    style="font-size:0.8rem;color:var(--text-muted);font-weight:600">0/280</span>
+                                <button class="btn btn-primary" id="copy-single-btn"
+                                    style="font-size:0.82rem;padding:0.4rem 1rem">📋 Copy
+                                    Tweet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thread output -->
+                <div id="tweet-output" style="display:none">
+                    <div
+                        style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem">
+                        <h2 style="font-size:1.15rem;display:flex;align-items:center;gap:0.5rem">🧵
+                            Generated Thread
+                        </h2>
+                        <div class="action-bar" style="margin-top:0">
+                            <button class="btn btn-outline" id="copy-all-btn" style="font-size:0.82rem">📋 Copy
+                                All</button>
+                            <button class="btn btn-outline" id="save-draft" style="font-size:0.82rem">💾 Save
+                                Draft</button>
+                            <button class="btn btn-ghost" id="generate-btn-2" style="font-size:0.82rem">🔄
+                                Regenerate</button>
+                        </div>
+                    </div>
+
+                    <div
+                        style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem">
+                        <span>💡</span> Click any tweet to edit it directly before copying.
+                        Character counter turns red
+                        if over 280.
+                    </div>
+
+                    <div id="thread-container"></div>
+                </div>
+
+            </div>
+
+            <!-- ── Sidebar ── -->
+            <div class="tweet-sidebar">
+
+                <div class="card" style="padding:1.25rem">
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem">📝 Writing
+                        Tips</h4>
+                    <div style="display:flex;flex-direction:column;gap:0.7rem">
+                        <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>🧵</span><span>Start with a strong hook — your first tweet decides
+                                if people keep
+                                reading</span>
+                        </div>
+                        <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>🔢</span><span>Use numbered lists and line breaks — walls of text
+                                kill
+                                engagement</span>
+                        </div>
+                        <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>🎯</span><span>End with a clear CTA: follow, RT, or reply. One
+                                action only.</span>
+                        </div>
+                        <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>⏰</span><span>Best times to post: 7–9 AM EST or 6–9 PM EST on
+                                weekdays</span>
+                        </div>
+                        <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>🔥</span><span>Embed images in key tweets — visual tweets get 3×
+                                more
+                                engagement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.25rem">
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem">📊 Ideal
+                        Thread Length</h4>
+                    <div style="display:flex;flex-direction:column;gap:0.6rem">
+                        <div style="display:flex;justify-content:space-between;font-size:0.82rem">
+                            <span>🎯 Sweet spot</span><span style="color:var(--green-1);font-weight:700">7–12
+                                tweets</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.82rem">
+                            <span><img src="assets/icon_defi_1771850023345.png" alt="DeFi" class="emoji-icon"> Quick
+                                thread</span><span style="color:var(--cyan-1);font-weight:700">4–6
+                                tweets</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.82rem">
+                            <span><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon"> Deep
+                                dive</span><span style="color:var(--purple-1);font-weight:700">13–20
+                                tweets</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.82rem">
+                            <span>❌ Too long</span><span style="color:#ef4444;font-weight:700">20+
+                                tweets</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.25rem">
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem">💾 Saved
+                        Drafts</h4>
+                    <div id="drafts-list">
+                        <p style="color:var(--text-muted);font-size:0.82rem">No saved drafts yet.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.25rem">
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem"><img
+                            src="assets/icon_layer2_1771850044279.png" alt="Layer 2" class="emoji-icon"> Related Tools
+                    </h4>
+                    <div style="display:flex;flex-direction:column;gap:0.5rem">
+                        <a href="research.html" style="font-size:0.85rem;color:var(--text-secondary)"><img
+                                src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon"> Research
+                            a
+                            topic first</a>
+                        <a href="learn.html" style="font-size:0.85rem;color:var(--text-secondary)"><img
+                                src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon"> Look up Web3
+                            terms</a>
+                        <a href="train.html" style="font-size:0.85rem;color:var(--text-secondary)"><img
+                                src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Train the
+                            AI</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 ChainMind · <a href="feedback.html">Share Feedback</a></p>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+
+    <!-- CDN Libraries for Premium Features -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        if (window.pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+    </script>
+
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/tweet-premium.js"></script>
+    <script src="js/tweet.js"></script>
+    <script>
+        // Wire up the secondary regenerate button
+        document.getElementById('generate-btn-2')?.addEventListener('click', () => {
+            document.getElementById('generate-btn').click();
+        });
+
+        // Wire up tweet count slider
+        const slider = document.getElementById('tweet-count-slider');
+        const sliderVal = document.getElementById('tweet-count-value');
+        if (slider && sliderVal) {
+            slider.addEventListener('input', () => {
+                sliderVal.textContent = slider.value;
+            });
+        }
+    </script>
+</body>
+
+</html>

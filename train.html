@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Train the AI — ChainMind</title>
+    <meta name="description"
+        content="Submit Web3 knowledge to train our AI model. Earn points, upvote contributions, climb the leaderboard." />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <style>
+        .train-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .train-form-card {
+            padding: 2rem;
+        }
+
+        .form-row {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media(max-width:900px) {
+            .train-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .emoji-icon {
+            width: 1.25em;
+            height: 1.25em;
+            vertical-align: -0.25em;
+            display: inline-block;
+            object-fit: contain;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon"><img src="assets/chainmind_logo.png" alt="ChainMind"></div>
+                <span>ChainMind</span>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon">
+                        Home</a></li>
+                <li><a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research"
+                            class="emoji-icon"> Research</a></li>
+                <li><a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                        Learn</a></li>
+                <li><a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI"
+                            class="emoji-icon"> Train AI</a></li>
+                <li><a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon">
+                        Jobs</a></li>
+                <li><a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer"
+                            class="emoji-icon"> Thread Writer</a></li>
+                <li><a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a></li>
+                <li><a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback"
+                            class="emoji-icon"> Feedback</a></li>
+            </ul>
+            <div class="navbar-cta">
+                <a href="research.html" class="btn btn-primary">Ask AI →</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="index.html"><img src="assets/icon_home_1771849990107.png" alt="Home" class="emoji-icon"> Home</a>
+            <a href="research.html"><img src="assets/icon_research_1771850004375.png" alt="Research" class="emoji-icon">
+                Research</a>
+            <a href="learn.html"><img src="assets/icon_learn_1771850086017.png" alt="Learn" class="emoji-icon">
+                Learn</a>
+            <a href="train.html"><img src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Train
+                AI</a>
+            <a href="jobs.html"><img src="assets/icon_jobs_1771850142744.png" alt="Jobs" class="emoji-icon"> Jobs</a>
+            <a href="tweet.html"><img src="assets/icon_thread_1771850173040.png" alt="Thread Writer" class="emoji-icon">
+                Thread Writer</a>
+            <a href="video.html"><img src="assets/icon_video.png" alt="Video" class="emoji-icon"> Video</a>
+            <a href="feedback.html"><img src="assets/icon_feedback_1771850546386.png" alt="Feedback" class="emoji-icon">
+                Feedback</a>
+        </div>
+    </nav>
+
+    <div class="orb orb-pink"
+        style="width:400px;height:400px;top:50px;right:-100px;position:fixed;z-index:0;pointer-events:none;opacity:0.4">
+    </div>
+
+    <div class="page-header">
+        <div class="eyebrow"><img src="assets/icon_robot_1771850102245.png" alt="Train AI" class="emoji-icon"> Community
+            AI Training</div>
+        <h1>Help the AI <span class="grad-text">get smarter</span></h1>
+        <p>Submit Web3 terms & definitions, upvote quality contributions, and earn your place on the
+            leaderboard.</p>
+        <div style="display:flex;gap:2rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap">
+            <div class="stat-item">
+                <div class="stat-number" data-target="6" data-suffix="">0</div>
+                <div class="stat-label">Submissions</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="677" data-suffix="">0</div>
+                <div class="stat-label">Total Votes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="92" data-suffix="%">0%</div>
+                <div class="stat-label">Avg Confidence</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container section" style="padding-top:0;position:relative;z-index:1">
+        <div class="train-layout">
+            <!-- Left: form + feed -->
+            <div>
+                <!-- Submit form -->
+                <div class="card train-form-card" style="margin-bottom:2rem">
+                    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem">
+                        <div
+                            style="width:42px;height:42px;background:var(--grad-primary);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.2rem">
+                            🧠</div>
+                        <div>
+                            <h3 style="font-size:1rem">Submit a Web3 Term</h3>
+                            <p style="font-size:0.8rem">Your contribution will train the AI and appear in
+                                the feed</p>
+                        </div>
+                    </div>
+                    <form id="train-form">
+                        <div class="form-grid-2">
+                            <div class="form-row">
+                                <label for="train-term">Term *</label>
+                                <input class="input" id="train-term" type="text" placeholder="e.g., Flash Loan"
+                                    required />
+                            </div>
+                            <div class="form-row">
+                                <label for="train-author">Your Name</label>
+                                <input class="input" id="train-author" type="text" placeholder="Anonymous" />
+                            </div>
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-row">
+                                <label for="train-cat">Category *</label>
+                                <select class="input select" id="train-cat">
+                                    <option value="">Select category</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label for="train-diff">Difficulty *</label>
+                                <select class="input select" id="train-diff">
+                                    <option value="">Select difficulty</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="train-def">Definition *</label>
+                            <textarea class="input textarea" id="train-def" rows="4"
+                                placeholder="Write a clear, accurate definition..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary"
+                            style="width:100%;justify-content:center;padding:0.85rem">
+                            <img src="assets/icon_defi_1771850023345.png" alt="DeFi" class="emoji-icon">
+                            Submit to Train the AI
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Community feed -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+                    <h2 style="font-size:1.25rem">Community Feed</h2>
+                    <span style="font-size:0.82rem;color:var(--text-muted)" id="submit-count">0</span>
+                </div>
+                <div class="feed-grid" id="feed-grid"></div>
+            </div>
+
+            <!-- Right: leaderboard + tips -->
+            <div style="position:sticky;top:88px">
+                <div class="card" style="padding:1.5rem;margin-bottom:1.25rem">
+                    <h4
+                        style="font-size:0.9rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem">
+                        🏆 Contributor Leaderboard</h4>
+                    <div id="leaderboard-list" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+                </div>
+
+                <div class="card" style="padding:1.5rem">
+                    <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:1rem">💡 Tips for Good
+                        Submissions</h4>
+                    <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem">
+                        <li style="font-size:0.83rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>✅</span>
+                            Be accurate and concise
+                        </li>
+                        <li style="font-size:0.83rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>✅</span>
+                            Include a real-world example
+                        </li>
+                        <li style="font-size:0.83rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>✅</span>
+                            Use plain English, avoid jargon in definitions
+                        </li>
+                        <li style="font-size:0.83rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>❌</span>
+                            Don't submit duplicates
+                        </li>
+                        <li style="font-size:0.83rem;color:var(--text-secondary);display:flex;gap:0.5rem">
+                            <span>❌</span>
+                            Don't include promotional content
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 ChainMind · <a href="feedback.html">Share Feedback</a></p>
+        </div>
+    </footer>
+
+    <div id="toast-container"></div>
+    <script src="js/store.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/train.js"></script>
+</body>
+
+</html>
