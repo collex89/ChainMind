@@ -284,6 +284,30 @@
       .hero h1 {
         font-size: clamp(2rem, 8vw, 3.5rem);
       }
+
+      .hero {
+        padding-bottom: 2rem;
+      }
+
+      .cta-card {
+        padding: 2rem 1.25rem !important;
+      }
+
+      .cta-card .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .hero-cta .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .stats-bar {
+        gap: 1.5rem;
+        padding: 1.75rem 1.5rem;
+      }
     }
   </style>
 </head>
@@ -400,7 +424,7 @@
   </section>
 
   <!-- ── Stats ── -->
-  <section class="section" style="padding-top:0">
+  <section class="section" style="padding-top:2rem">
     <div class="container">
       <div class="stats-bar">
         <div class="stat-item">
@@ -500,7 +524,7 @@
         </div>
         <div class="orb orb-cyan"
           style="width:300px;height:300px;bottom:-150px;right:-50px;position:absolute;z-index:0"></div>
-        <div style="position:relative;z-index:1">
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
           <h2 style="margin-bottom:0.75rem">Ready to level up your <span class="grad-text">Web3 knowledge?</span></h2>
           <p style="margin-bottom:2rem;max-width:500px;margin-inline:auto">Start with the AI Research Hub — ask anything
             and get instant answers.</p>
