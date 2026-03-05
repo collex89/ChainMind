@@ -104,44 +104,55 @@
                 return;
             }
 
+            // Get email from auth or prompt
+            let email = null;
+            const auth = window.ChainMindAuth;
+            if (auth && auth.isLoggedIn()) {
+                const user = auth.getUser();
+                email = user?.email;
+            }
+            if (!email) {
+                email = prompt('Enter your email address for the receipt:');
+            }
+            if (!email || !email.includes('@')) {
+                reject(new Error('A valid email address is required for payment.'));
+                return;
+            }
+
             const handler = PaystackPop.setup({
                 key: PAYSTACK_PUBLIC_KEY,
-                email: prompt('Enter your email address for the receipt:'),
+                email: email,
                 amount: SUBSCRIPTION_AMOUNT,   // Amount in kobo/cents
                 currency: 'NGN',               // Change to 'USD' if using a USD Paystack account
                 metadata: {
                     plan: 'chainmind_pro',
                     duration_days: SUBSCRIPTION_DAYS,
                 },
-                callback: async function (response) {
+                callback: function (response) {
                     // Payment successful on Paystack's end — verify with our server
-                    try {
-                        // Include auth token so Worker can update user's plan in DB
-                        const authHeaders = window.ChainMindAuth ? window.ChainMindAuth.authHeaders() : {};
-                        const verifyResp = await fetch(`${WORKER_URL}/verify-payment`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json', ...authHeaders },
-                            body: JSON.stringify({
-                                reference: response.reference,
-                            }),
-                        });
-                        const verifyData = await verifyResp.json();
-
-                        if (!verifyResp.ok || !verifyData.success) {
-                            throw new Error(verifyData.error || 'Payment verification failed. Please contact support.');
-                        }
-
-                        // Store server-signed JWT token (tamper-proof)
-                        Subscription.activate(
-                            verifyData.token,
-                            verifyData.expiresAt,
-                            verifyData.email,
-                            verifyData.txReference
-                        );
-                        resolve(response.reference);
-                    } catch (err) {
-                        reject(err);
-                    }
+                    const authHeaders = (auth && auth.isLoggedIn()) ? auth.authHeaders() : {};
+                    fetch(`${WORKER_URL}/verify-payment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', ...authHeaders },
+                        body: JSON.stringify({
+                            reference: response.reference,
+                        }),
+                    })
+                        .then(r => r.json())
+                        .then(verifyData => {
+                            if (!verifyData.success) {
+                                throw new Error(verifyData.error || 'Payment verification failed. Please contact support.');
+                            }
+                            // Store server-signed JWT token (tamper-proof)
+                            Subscription.activate(
+                                verifyData.token,
+                                verifyData.expiresAt,
+                                verifyData.email,
+                                verifyData.txReference
+                            );
+                            resolve(response.reference);
+                        })
+                        .catch(err => reject(err));
                 },
                 onClose: function () {
                     reject(new Error('Payment cancelled. You can try again anytime.'));
