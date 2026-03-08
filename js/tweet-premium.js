@@ -23,10 +23,17 @@
     const Subscription = {
         // Check if subscription is active (quick local check + periodic server validation)
         isActive() {
+            // Check 1: User has pro plan via auth system (D1 database)
+            const auth = window.ChainMindAuth;
+            if (auth && auth.isLoggedIn()) {
+                const user = auth.getUser();
+                if (user && user.plan === 'pro') return true;
+            }
+
+            // Check 2: User has active Paystack subscription token
             try {
                 const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
                 if (!data || !data.token || !data.expiresAt) return false;
-                // Quick expiry check (prevents use of expired tokens)
                 if (Date.now() >= data.expiresAt) {
                     localStorage.removeItem(STORAGE_KEY);
                     return false;
