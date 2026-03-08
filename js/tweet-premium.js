@@ -23,12 +23,11 @@
     const Subscription = {
         // Check if subscription is active (quick local check + periodic server validation)
         isActive() {
-            // Check 1: User has pro plan via auth system (D1 database)
-            const auth = window.ChainMindAuth;
-            if (auth && auth.isLoggedIn()) {
-                const user = auth.getUser();
-                if (user && user.plan === 'pro') return true;
-            }
+            // Check 1: User has pro plan in auth session (direct localStorage read)
+            try {
+                const authData = JSON.parse(localStorage.getItem('chainmind_auth'));
+                if (authData && authData.user && authData.user.plan === 'pro') return true;
+            } catch { }
 
             // Check 2: User has active Paystack subscription token
             try {
