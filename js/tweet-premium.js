@@ -516,14 +516,27 @@
 
         if (!overlay) return;
 
-        // Quick local check first
-        if (Subscription.isActive()) {
+        function hidePaywall() {
             overlay.style.display = 'none';
             if (proStatus) {
+                const auth = window.ChainMindAuth;
+                if (auth && auth.isLoggedIn()) {
+                    const user = auth.getUser();
+                    if (user && user.plan === 'pro') {
+                        proStatus.textContent = 'PRO · Owner';
+                        proStatus.style.display = 'inline-flex';
+                        return;
+                    }
+                }
                 const days = Subscription.getDaysRemaining();
                 proStatus.textContent = `PRO · ${days}d remaining`;
                 proStatus.style.display = 'inline-flex';
             }
+        }
+
+        // Quick local check first
+        if (Subscription.isActive()) {
+            hidePaywall();
 
             // Async server-side validation (catches tampered tokens)
             Subscription.validateWithServer().then(valid => {
@@ -536,8 +549,15 @@
             return;
         }
 
-        // Show paywall
+        // Show paywall initially
         overlay.style.display = 'flex';
+
+        // Re-check after auth profile refreshes (plan may update from server)
+        window.addEventListener('chainmind-auth-ready', () => {
+            if (Subscription.isActive()) {
+                hidePaywall();
+            }
+        });
 
         if (subscribeBtn) {
             subscribeBtn.addEventListener('click', async () => {

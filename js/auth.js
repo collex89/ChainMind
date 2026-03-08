@@ -383,9 +383,13 @@
 
     function init() {
         if (Auth.isLoggedIn()) {
+            injectAuthStyles();
             updateNavbar();
-            // Silently refresh profile in background
-            Auth.refreshProfile().then(() => updateNavbar());
+            // Refresh profile from server and notify other scripts
+            Auth.refreshProfile().then(() => {
+                updateNavbar();
+                window.dispatchEvent(new Event('chainmind-auth-ready'));
+            });
         } else {
             createAuthModal();
         }
