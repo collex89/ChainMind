@@ -10,13 +10,30 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 (function () {
+    const WORKER_URL = 'https://chainmind-video.ugwucollins881.workers.dev';
     const chatBody = document.getElementById('chat-body');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
     const historyEl = document.getElementById('search-history');
 
     let searchHistory = JSON.parse(localStorage.getItem('w3ai_history') || '[]');
+    let conversationHistory = []; // Track conversation for AI context
     renderHistory();
+
+    // ── Markdown to HTML converter for AI responses ──────────────────────
+    function markdownToHtml(md) {
+        return md
+            .replace(/^### (.+)$/gm, '<h3 style="color:var(--text-primary);margin:0.75rem 0 0.4rem">$1</h3>')
+            .replace(/^## (.+)$/gm, '<h2 style="color:var(--text-primary);margin:0.75rem 0 0.4rem;font-size:1.05rem">$1</h2>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong style="color:var(--text-primary)">$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/^- (.+)$/gm, '<li style="margin:0.2rem 0">$1</li>')
+            .replace(/^\d+\. (.+)$/gm, '<li style="margin:0.2rem 0">$1</li>')
+            .replace(/(<li[^>]*>.*<\/li>\n?)+/g, (m) => `<ul style="padding-left:1.2rem;margin:0.4rem 0">${m}</ul>`)
+            .replace(/`([^`]+)`/g, '<code style="background:rgba(139,92,246,0.15);padding:0.15rem 0.4rem;border-radius:4px;font-size:0.85em">$1</code>')
+            .replace(/\n\n/g, '<br><br>')
+            .replace(/\n/g, '<br>');
+    }
 
     // ══════════════════════════════════════════════════════════════════════════
     // RANDOMIZATION ENGINE — ensures unique responses every time
@@ -551,8 +568,8 @@
             }
         }
 
-        // ── Priority 5: Smart fallback with related suggestions ────────────────
-        return buildSmartFallback(rawQuery, cleanQ);
+        // ── Priority 5: Return null — caller will use AI API ────────────────
+        return null;
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -685,11 +702,32 @@
         return msg;
     }
 
+    // ── Call Groq AI via worker ────────────────────────────────────────────
+    async function callAI(message) {
+        try {
+            const resp = await fetch(`${WORKER_URL}/ai/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, history: conversationHistory.slice(-6) }),
+            });
+            const data = await resp.json();
+            if (data.success && data.reply) {
+                return data.reply;
+            }
+            return data.reply || data.error || 'I couldn\'t generate a response. Please try again.';
+        } catch (err) {
+            console.error('[ChainMind AI] Error:', err);
+            return 'I\'m having trouble connecting to the AI service. Please try again in a moment.';
+        }
+    }
+
     async function sendMessage() {
         const q = chatInput.value.trim();
         if (!q) return;
         chatInput.value = '';
+        sendBtn.disabled = true;
         appendMessage(q, 'user');
+        conversationHistory.push({ role: 'user', content: q });
 
         if (!searchHistory.includes(q)) {
             searchHistory.unshift(q);
@@ -699,13 +737,32 @@
         }
 
         const typing = showTyping();
-        // Vary delay based on "complexity" of the query for realism
-        const delay = 800 + Math.min(q.length * 10, 1200);
-        await new Promise(r => setTimeout(r, delay));
-        typing.remove();
 
-        const answer = getAnswer(q);
-        appendMessage(answer, 'ai');
+        // Try local knowledge first (instant)
+        const localAnswer = getAnswer(q);
+        if (localAnswer) {
+            const delay = 600 + Math.min(q.length * 8, 800);
+            await new Promise(r => setTimeout(r, delay));
+            typing.remove();
+            appendMessage(localAnswer, 'ai');
+            conversationHistory.push({ role: 'assistant', content: localAnswer });
+        } else {
+            // Call Groq AI for everything else
+            const aiReply = await callAI(q);
+            typing.remove();
+            const formattedReply = `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+                <span style="font-size:1.2rem">✨</span>
+                <strong style="color:var(--cyan-1);font-size:0.85rem">Powered by ChainMind AI</strong>
+            </div>` + markdownToHtml(aiReply);
+            appendMessage(formattedReply, 'ai');
+            conversationHistory.push({ role: 'assistant', content: aiReply });
+        }
+
+        sendBtn.disabled = false;
+        // Keep conversation history manageable
+        if (conversationHistory.length > 20) {
+            conversationHistory = conversationHistory.slice(-12);
+        }
     }
 
     if (sendBtn) sendBtn.addEventListener('click', sendMessage);
