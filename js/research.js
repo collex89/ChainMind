@@ -558,15 +558,7 @@
         }
         if (best && bestGScore >= 10) return buildGlossaryAnswer(best);
 
-        // ── Priority 4: Fuzzy — any word of query matches any knowledge tag ─────
-        const queryWords = cleanQ.split(/\s+/).filter(w => w.length > 3);
-        for (const entry of Object.values(KNOWLEDGE)) {
-            for (const word of queryWords) {
-                if (entry.tags.some(tag => tag.includes(word) || word.includes(tag))) {
-                    return buildRichAnswer(entry);
-                }
-            }
-        }
+        // Priority 4 removed — Groq AI now handles anything not matched above
 
         // ── Priority 5: Return null — caller will use AI API ────────────────
         return null;
