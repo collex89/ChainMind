@@ -555,6 +555,12 @@
                     Already subscribed? Restore access →
                 </a>
             </div>
+            <div style="margin-top:0.5rem">
+                <a href="#" id="video-redeem-code-link"
+                    style="font-size:0.82rem;color:var(--cyan-1,#06b6d4);text-decoration:underline;cursor:pointer">
+                    🔑 Have an access code?
+                </a>
+            </div>
         </div>
     </div>
 
@@ -611,6 +617,42 @@
                     }, 1200);
                 } catch (err) {
                     vRestoreBtn.textContent = 'Already subscribed? Restore access →';
+                    if (window.showToast) window.showToast(err.message, 'error');
+                }
+            });
+        }
+
+        // Wire access code link
+        const vCodeLink = document.getElementById('video-redeem-code-link');
+        if (vCodeLink) {
+            vCodeLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const code = prompt('Enter your access code:');
+                if (!code) return;
+
+                const auth = window.ChainMindAuth;
+                if (!auth || !auth.isLoggedIn()) {
+                    if (window.showToast) window.showToast('Please log in first.', 'error');
+                    return;
+                }
+
+                try {
+                    const resp = await fetch('https://chainmind-video.ugwucollins881.workers.dev/auth/redeem-code', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', ...auth.authHeaders() },
+                        body: JSON.stringify({ code: code.trim() }),
+                    });
+                    const data = await resp.json();
+                    if (!resp.ok || !data.success) throw new Error(data.error || 'Invalid code.');
+
+                    const session = JSON.parse(localStorage.getItem('chainmind_auth'));
+                    if (session) {
+                        session.user.plan = 'pro';
+                        localStorage.setItem('chainmind_auth', JSON.stringify(session));
+                    }
+                    if (window.showToast) window.showToast('Access code redeemed! PRO unlocked 🎉', 'success');
+                    setTimeout(() => location.reload(), 1200);
+                } catch (err) {
                     if (window.showToast) window.showToast(err.message, 'error');
                 }
             });

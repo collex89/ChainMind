@@ -620,6 +620,56 @@
                 }
             });
         }
+
+        // Wire up access code link
+        async function redeemAccessCode() {
+            const code = prompt('Enter your access code:');
+            if (!code) return;
+
+            try {
+                const auth = window.ChainMindAuth;
+                if (!auth || !auth.isLoggedIn()) {
+                    if (window.showToast) showToast('Please log in first to redeem a code.', 'error');
+                    return;
+                }
+
+                const resp = await fetch(`${WORKER_URL}/auth/redeem-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', ...auth.authHeaders() },
+                    body: JSON.stringify({ code: code.trim() }),
+                });
+                const data = await resp.json();
+
+                if (!resp.ok || !data.success) {
+                    throw new Error(data.error || 'Invalid access code.');
+                }
+
+                // Update local session with pro plan
+                const session = JSON.parse(localStorage.getItem('chainmind_auth'));
+                if (session) {
+                    session.user.plan = 'pro';
+                    localStorage.setItem('chainmind_auth', JSON.stringify(session));
+                }
+
+                if (window.showToast) showToast('Access code redeemed! Welcome to PRO 🎉', 'success');
+                hidePaywall();
+            } catch (err) {
+                if (window.showToast) showToast(err.message || 'Failed to redeem code.', 'error');
+            }
+        }
+
+        // Add "Have an access code?" link to the overlay
+        const overlayInner = overlay.querySelector('.premium-overlay-content, div');
+        if (overlayInner) {
+            const codeLink = document.createElement('div');
+            codeLink.style.cssText = 'text-align:center;margin-top:1rem;';
+            codeLink.innerHTML = '<a href="#" id="redeem-code-link" style="color:var(--cyan-1,#06b6d4);font-size:0.85rem;text-decoration:underline;cursor:pointer">🔑 Have an access code?</a>';
+            overlayInner.appendChild(codeLink);
+            codeLink.querySelector('#redeem-code-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                redeemAccessCode();
+            });
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════════════════

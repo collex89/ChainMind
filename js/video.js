@@ -237,10 +237,10 @@
     }
 
     async function pollForResult(predictionId) {
-        // minimax/video-01 takes 2-4 minutes — poll for up to 7.5 minutes
+        // minimax/video-01-live is faster — poll every 2s for up to 5 minutes
         const maxAttempts = 150;
         for (let i = 0; i < maxAttempts; i++) {
-            await new Promise(r => setTimeout(r, 3000));
+            await new Promise(r => setTimeout(r, 2000));
             const resp = await fetch(`${WORKER_URL}/status/${predictionId}`);
             const data = await resp.json();
             console.log(`[ChainMind Video] Poll ${i + 1}/${maxAttempts}: ${data.status}`);
