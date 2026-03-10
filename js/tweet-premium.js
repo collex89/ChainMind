@@ -12,8 +12,8 @@
     const WORKER_URL = 'https://chainmind-video.ugwucollins881.workers.dev';
     // ██  PASTE YOUR PAYSTACK PUBLIC KEY HERE  ██
     const PAYSTACK_PUBLIC_KEY = 'pk_live_45f82954fac3979d0bf8ee58bbe75a16645c2777';
-    const SUBSCRIPTION_PRICE = 10;            // $10 USD
-    const SUBSCRIPTION_AMOUNT = 1000000;      // Amount in kobo (₦10,000) or cents ($10.00 = 1000 cents)
+    const SUBSCRIPTION_PRICE = 5;             // $5 USD
+    const SUBSCRIPTION_AMOUNT = 500000;       // Amount in kobo (₦5,000) or cents ($5.00 = 500 cents)
     const SUBSCRIPTION_DAYS = 30;
     const STORAGE_KEY = 'chainmind_pro_token';  // JWT token storage
 
