@@ -269,19 +269,22 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             transition: opacity 0.4s ease, transform 0.4s ease;
+            overflow-y: auto;
+            padding: 2rem 0;
         }
 
         .premium-card {
             max-width: 520px;
             width: 90%;
             text-align: center;
-            padding: 3rem 2.5rem;
+            padding: 2rem 2rem;
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(34, 211, 238, 0.04) 100%);
             border: 1px solid rgba(139, 92, 246, 0.3);
             border-radius: var(--radius-lg);
             box-shadow: 0 0 80px rgba(139, 92, 246, 0.15), 0 25px 60px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: visible;
+            margin: auto;
         }
 
         .premium-card::before {
