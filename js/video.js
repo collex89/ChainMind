@@ -237,16 +237,19 @@
     }
 
     async function pollForResult(predictionId) {
-        // minimax/video-01-live is faster — poll every 2s for up to 5 minutes
-        const maxAttempts = 150;
+        // Poll every 3s for up to 5 minutes
+        const maxAttempts = 100;
         for (let i = 0; i < maxAttempts; i++) {
-            await new Promise(r => setTimeout(r, 2000));
+            await new Promise(r => setTimeout(r, 3000));
             const resp = await fetch(`${WORKER_URL}/status/${predictionId}`);
             const data = await resp.json();
             console.log(`[ChainMind Video] Poll ${i + 1}/${maxAttempts}: ${data.status}`);
 
             if (data.status === 'succeeded') {
-                return data.output;
+                // Replicate output can be a string URL or an array of URLs
+                const output = data.output;
+                if (Array.isArray(output)) return output[0];
+                return output;
             }
             if (data.status === 'failed') {
                 throw new Error(data.error || 'Generation failed');
@@ -318,9 +321,33 @@
             setTimeout(() => {
                 resultEl.style.display = 'block';
                 resultVideo.src = videoUrl;
-                downloadBtn.href = videoUrl;
                 resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 600);
+
+            // Wire download button to fetch video as blob (cross-origin safe)
+            if (downloadBtn) {
+                downloadBtn.onclick = async (e) => {
+                    e.preventDefault();
+                    downloadBtn.textContent = '⏳ Downloading...';
+                    try {
+                        const videoResp = await fetch(videoUrl);
+                        const blob = await videoResp.blob();
+                        const blobUrl = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = 'chainmind_video.mp4';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(blobUrl);
+                        downloadBtn.textContent = '⬇️ Download';
+                    } catch (err) {
+                        // Fallback: open in new tab
+                        window.open(videoUrl, '_blank');
+                        downloadBtn.textContent = '⬇️ Download';
+                    }
+                };
+            }
 
             // Save to gallery
             saveToGallery(prompt || 'Image animation', videoUrl);
