@@ -658,14 +658,11 @@
             }
         }
 
-        // Add "Have an access code?" link to the overlay
-        const overlayInner = overlay.querySelector('.premium-overlay-content, div');
-        if (overlayInner) {
-            const codeLink = document.createElement('div');
-            codeLink.style.cssText = 'text-align:center;margin-top:1rem;';
-            codeLink.innerHTML = '<a href="#" id="redeem-code-link" style="color:var(--cyan-1,#06b6d4);font-size:0.85rem;text-decoration:underline;cursor:pointer">🔑 Have an access code?</a>';
-            overlayInner.appendChild(codeLink);
-            codeLink.querySelector('#redeem-code-link').addEventListener('click', (e) => {
+
+        // Wire up access code link (exists in HTML)
+        const codeLink = document.getElementById('redeem-code-link');
+        if (codeLink) {
+            codeLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 redeemAccessCode();
             });
