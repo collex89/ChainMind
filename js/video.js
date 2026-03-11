@@ -324,14 +324,17 @@
                 resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 600);
 
-            // Wire download button to fetch video as blob (cross-origin safe)
+            // Wire download button via worker proxy (bypasses CORS)
             if (downloadBtn) {
                 downloadBtn.onclick = async (e) => {
                     e.preventDefault();
                     downloadBtn.textContent = '⏳ Downloading...';
+                    downloadBtn.disabled = true;
                     try {
-                        const videoResp = await fetch(videoUrl);
-                        const blob = await videoResp.blob();
+                        const proxyUrl = `${WORKER_URL}/download?url=${encodeURIComponent(videoUrl)}`;
+                        const resp = await fetch(proxyUrl);
+                        if (!resp.ok) throw new Error('Download failed');
+                        const blob = await resp.blob();
                         const blobUrl = URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = blobUrl;
@@ -339,13 +342,13 @@
                         document.body.appendChild(a);
                         a.click();
                         document.body.removeChild(a);
-                        URL.revokeObjectURL(blobUrl);
+                        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
                         downloadBtn.textContent = '⬇️ Download';
                     } catch (err) {
-                        // Fallback: open in new tab
                         window.open(videoUrl, '_blank');
                         downloadBtn.textContent = '⬇️ Download';
                     }
+                    downloadBtn.disabled = false;
                 };
             }
 
