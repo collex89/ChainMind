@@ -523,13 +523,18 @@
         const glossary = window.STORE && window.STORE.glossary ? window.STORE.glossary : [];
 
         // ── Priority 1: Score all inline KNOWLEDGE entries ─────────────────────
+        // For short queries (1-3 words), a low score is fine — they're asking "what is X"
+        // For longer questions (4+ words), require exact match — they need a specific answer from AI
+        const wordCount = cleanQ.split(/\s+/).length;
+        const scoreThreshold = wordCount <= 3 ? 10 : 80;
+
         let bestScore = 0;
         let bestEntry = null;
         for (const entry of Object.values(KNOWLEDGE)) {
             const s = scoreQuery(cleanQ, entry.tags);
             if (s > bestScore) { bestScore = s; bestEntry = entry; }
         }
-        if (bestEntry && bestScore >= 10) {
+        if (bestEntry && bestScore >= scoreThreshold) {
             return buildRichAnswer(bestEntry);
         }
 
