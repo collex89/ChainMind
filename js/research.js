@@ -538,30 +538,32 @@
             return buildRichAnswer(bestEntry);
         }
 
-        // ── Priority 2: Store knowledge base (store.js topics) ─────────────────
-        for (const [, topic] of Object.entries(knowledge)) {
-            // Only match if the topic's dedicated keywords appear (not title words!)
-            const topicKey = topic.title.toLowerCase();
-            if (cleanQ.includes('defi') && topicKey.includes('defi')) return buildStoreTopicAnswer(topic);
-            if ((cleanQ.includes('nft') || cleanQ.includes('non-fungible')) && topicKey.includes('nft')) return buildStoreTopicAnswer(topic);
-            if ((cleanQ.includes('layer 2') || cleanQ.includes('l2') || cleanQ.includes('rollup')) && topicKey.includes('layer')) return buildStoreTopicAnswer(topic);
-            if (cleanQ.includes('dao') && topicKey.includes('dao')) return buildStoreTopicAnswer(topic);
-            if ((cleanQ.includes('wallet') || cleanQ.includes('seed') || cleanQ.includes('private key') || cleanQ.includes('metamask')) && topicKey.includes('wallet')) return buildStoreTopicAnswer(topic);
-            if ((cleanQ.includes('block') && !cleanQ.includes('blockchain is')) && topicKey.includes('blockchain') && cleanQ.length < 15) return buildStoreTopicAnswer(topic);
-        }
+        // For longer questions, skip local matching and let Groq AI handle it
+        if (wordCount <= 3) {
+            // ── Priority 2: Store knowledge base (store.js topics) ─────────────
+            for (const [, topic] of Object.entries(knowledge)) {
+                const topicKey = topic.title.toLowerCase();
+                if (cleanQ.includes('defi') && topicKey.includes('defi')) return buildStoreTopicAnswer(topic);
+                if ((cleanQ.includes('nft') || cleanQ.includes('non-fungible')) && topicKey.includes('nft')) return buildStoreTopicAnswer(topic);
+                if ((cleanQ.includes('layer 2') || cleanQ.includes('l2') || cleanQ.includes('rollup')) && topicKey.includes('layer')) return buildStoreTopicAnswer(topic);
+                if (cleanQ.includes('dao') && topicKey.includes('dao')) return buildStoreTopicAnswer(topic);
+                if ((cleanQ.includes('wallet') || cleanQ.includes('seed') || cleanQ.includes('private key') || cleanQ.includes('metamask')) && topicKey.includes('wallet')) return buildStoreTopicAnswer(topic);
+                if ((cleanQ.includes('block') && !cleanQ.includes('blockchain is')) && topicKey.includes('blockchain') && cleanQ.length < 15) return buildStoreTopicAnswer(topic);
+            }
 
-        // ── Priority 3: Glossary exact + phrase match ───────────────────────────
-        let best = null;
-        let bestGScore = 0;
-        for (const term of glossary) {
-            const tl = term.term.toLowerCase();
-            let gs = 0;
-            if (cleanQ === tl) gs = 100;
-            else if (cleanQ.includes(tl)) gs = tl.split(' ').length * 20;
-            else if (tl.includes(cleanQ) && cleanQ.length > 3) gs = 10;
-            if (gs > bestGScore) { bestGScore = gs; best = term; }
+            // ── Priority 3: Glossary exact + phrase match ──────────────────────
+            let best = null;
+            let bestGScore = 0;
+            for (const term of glossary) {
+                const tl = term.term.toLowerCase();
+                let gs = 0;
+                if (cleanQ === tl) gs = 100;
+                else if (cleanQ.includes(tl)) gs = tl.split(' ').length * 20;
+                else if (tl.includes(cleanQ) && cleanQ.length > 3) gs = 10;
+                if (gs > bestGScore) { bestGScore = gs; best = term; }
+            }
+            if (best && bestGScore >= 10) return buildGlossaryAnswer(best);
         }
-        if (best && bestGScore >= 10) return buildGlossaryAnswer(best);
 
         // Priority 4 removed — Groq AI now handles anything not matched above
 
