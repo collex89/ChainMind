@@ -533,94 +533,6 @@
             }
         }
 
-        // Quick local check first
-        if (Subscription.isActive()) {
-            hidePaywall();
-
-            // Async server-side validation (catches tampered tokens)
-            Subscription.validateWithServer().then(valid => {
-                if (!valid) {
-                    console.warn('[ChainMind] Server rejected token — showing paywall');
-                    overlay.style.display = 'flex';
-                    if (proStatus) proStatus.style.display = 'none';
-                }
-            });
-            return;
-        }
-
-        // Show paywall initially
-        overlay.style.display = 'flex';
-
-        // Re-check after auth profile refreshes (plan may update from server)
-        window.addEventListener('chainmind-auth-ready', () => {
-            if (Subscription.isActive()) {
-                hidePaywall();
-            }
-        });
-
-        if (subscribeBtn) {
-            subscribeBtn.addEventListener('click', async () => {
-                const originalText = subscribeBtn.innerHTML;
-                try {
-                    subscribeBtn.innerHTML = '⏳ Opening payment...';
-                    subscribeBtn.disabled = true;
-
-                    const reference = await payWithCard();
-
-                    subscribeBtn.innerHTML = '✅ Subscription active!';
-                    if (window.showToast) showToast('Welcome to ChainMind PRO! Payment confirmed 🎉', 'success');
-
-                    // Hide overlay with animation
-                    setTimeout(() => {
-                        overlay.style.opacity = '0';
-                        overlay.style.transform = 'scale(1.05)';
-                        setTimeout(() => {
-                            overlay.style.display = 'none';
-                            if (proStatus) {
-                                proStatus.textContent = 'PRO · 30d remaining';
-                                proStatus.style.display = 'inline-flex';
-                            }
-                        }, 400);
-                    }, 1200);
-
-                } catch (err) {
-                    console.error('Payment error:', err);
-                    subscribeBtn.innerHTML = originalText;
-                    subscribeBtn.disabled = false;
-                    if (window.showToast) {
-                        showToast(err.message || 'Payment failed. Please try again.', 'error');
-                    }
-                }
-            });
-        }
-
-        // Wire up restore access button
-        const restoreBtn = document.getElementById('restore-access-btn');
-        if (restoreBtn) {
-            restoreBtn.addEventListener('click', async (e) => {
-                e.preventDefault();
-                try {
-                    restoreBtn.textContent = '⏳ Checking...';
-                    const data = await restoreSubscription();
-                    const days = Subscription.getDaysRemaining();
-                    if (window.showToast) showToast(`Welcome back! PRO restored — ${days} days remaining 🎉`, 'success');
-                    setTimeout(() => {
-                        overlay.style.opacity = '0';
-                        setTimeout(() => {
-                            overlay.style.display = 'none';
-                            if (proStatus) {
-                                proStatus.textContent = `PRO · ${days}d remaining`;
-                                proStatus.style.display = 'inline-flex';
-                            }
-                        }, 400);
-                    }, 800);
-                } catch (err) {
-                    restoreBtn.textContent = 'Already subscribed? Restore access →';
-                    if (window.showToast) showToast(err.message || 'Could not restore subscription.', 'error');
-                }
-            });
-        }
-
         // Wire up access code link
         async function redeemAccessCode() {
             const code = prompt('Enter your access code:');
@@ -658,8 +570,69 @@
             }
         }
 
+        // Wire up buttons first
+        if (subscribeBtn) {
+            subscribeBtn.addEventListener('click', async () => {
+                const originalText = subscribeBtn.innerHTML;
+                try {
+                    subscribeBtn.innerHTML = '⏳ Opening payment...';
+                    subscribeBtn.disabled = true;
 
-        // Wire up access code link (exists in HTML)
+                    const reference = await payWithCard();
+
+                    subscribeBtn.innerHTML = '✅ Subscription active!';
+                    if (window.showToast) showToast('Welcome to ChainMind PRO! Payment confirmed 🎉', 'success');
+
+                    // Hide overlay with animation
+                    setTimeout(() => {
+                        overlay.style.opacity = '0';
+                        overlay.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            overlay.style.display = 'none';
+                            if (proStatus) {
+                                proStatus.textContent = 'PRO · 30d remaining';
+                                proStatus.style.display = 'inline-flex';
+                            }
+                        }, 400);
+                    }, 1200);
+
+                } catch (err) {
+                    console.error('Payment error:', err);
+                    subscribeBtn.innerHTML = originalText;
+                    subscribeBtn.disabled = false;
+                    if (window.showToast) {
+                        showToast(err.message || 'Payment failed. Please try again.', 'error');
+                    }
+                }
+            });
+        }
+
+        const restoreBtn = document.getElementById('restore-access-btn');
+        if (restoreBtn) {
+            restoreBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    restoreBtn.textContent = '⏳ Checking...';
+                    const data = await restoreSubscription();
+                    const days = Subscription.getDaysRemaining();
+                    if (window.showToast) showToast(`Welcome back! PRO restored — ${days} days remaining 🎉`, 'success');
+                    setTimeout(() => {
+                        overlay.style.opacity = '0';
+                        setTimeout(() => {
+                            overlay.style.display = 'none';
+                            if (proStatus) {
+                                proStatus.textContent = `PRO · ${days}d remaining`;
+                                proStatus.style.display = 'inline-flex';
+                            }
+                        }, 400);
+                    }, 800);
+                } catch (err) {
+                    restoreBtn.innerHTML = 'Already subscribed? Restore access <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                    if (window.showToast) showToast(err.message || 'Could not restore subscription.', 'error');
+                }
+            });
+        }
+
         const codeLink = document.getElementById('redeem-code-link');
         if (codeLink) {
             codeLink.addEventListener('click', (e) => {
@@ -667,6 +640,32 @@
                 redeemAccessCode();
             });
         }
+
+        // Quick local check first
+        if (Subscription.isActive()) {
+            hidePaywall();
+
+            // Async server-side validation (catches tampered tokens)
+            Subscription.validateWithServer().then(valid => {
+                if (!valid) {
+                    console.warn('[ChainMind] Server rejected token — showing paywall');
+                    overlay.style.display = 'flex';
+                    if (proStatus) proStatus.style.display = 'none';
+                }
+            });
+            return;
+        }
+
+        // Show paywall initially
+        overlay.style.display = 'flex';
+
+        // Re-check after auth profile refreshes (plan may update from server)
+        window.addEventListener('chainmind-auth-ready', () => {
+            if (Subscription.isActive()) {
+                hidePaywall();
+            }
+        });
+
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
