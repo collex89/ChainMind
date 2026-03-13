@@ -12,18 +12,13 @@
     const CATS = ['DeFi', 'NFT', 'Infrastructure', 'Layer 2', 'DAO', 'Wallet'];
     const DIFFS = ['Beginner', 'Intermediate', 'Advanced'];
 
-    // Seed data (shown while loading from API)
-    const SEED_DATA = [
-        { id: 1, term: "HODLing", cat: "DeFi", diff: "Beginner", def: "Holding crypto assets long-term regardless of market volatility, derived from a misspelled 'hold'.", author: "CryptoCarlos", avatar: "🐂", confidence: 92, votes: 147, time: "seed" },
-        { id: 2, term: "Gas Wars", cat: "Infrastructure", diff: "Intermediate", def: "Competitive bidding of gas fees during high network demand, often causing fees to spike dramatically.", author: "EthExplorer", avatar: "⛽", confidence: 88, votes: 89, time: "seed" },
-        { id: 3, term: "Degen", cat: "DeFi", diff: "Beginner", def: "Short for 'degenerate' — a trader who takes high-risk positions in volatile crypto assets.", author: "YieldFarmer", avatar: "🎰", confidence: 81, votes: 73, time: "seed" },
-        { id: 4, term: "Rug", cat: "DeFi", diff: "Beginner", def: "Short for rugpull — when a project team drains liquidity and disappears, leaving investors with worthless tokens.", author: "SafetyFirst", avatar: "🚨", confidence: 96, votes: 201, time: "seed" },
-        { id: 5, term: "Ser", cat: "Infrastructure", diff: "Beginner", def: "A crypto-native honorific (derived from 'Sir') used in community discourse, often ironically.", author: "CommunityVoice", avatar: "🎩", confidence: 70, votes: 55, time: "seed" },
-        { id: 6, term: "Moon", cat: "DeFi", diff: "Beginner", def: "When the price of a crypto asset rises dramatically — 'When moon?' is a common community question.", author: "BullMarketBob", avatar: "🌙", confidence: 85, votes: 112, time: "seed" },
-    ];
-
-    let submissions = [...SEED_DATA];
+    let submissions = [];
+    let leaderboardData = [];
     let votes = JSON.parse(localStorage.getItem('w3ai_votes') || '[]');
+
+    // User Avatar SVG
+    const userAvatarSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+    const pointsSvg = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--yellow-1);margin-right:0.25rem"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`;
 
     // ─── Load feed from D1 API ────────────────────────────────────────────────
     async function loadFeedFromAPI() {
@@ -32,32 +27,43 @@
             const data = await resp.json();
             if (data.success && data.submissions.length > 0) {
                 // Convert API format to display format
-                const apiSubmissions = data.submissions.map(s => ({
+                submissions = data.submissions.map(s => ({
                     id: s.id,
                     term: s.term,
                     cat: s.category || 'DeFi',
                     diff: s.difficulty || 'Beginner',
                     def: s.definition,
                     author: s.author || 'Anonymous',
-                    avatar: '👤',
                     confidence: Math.floor(60 + Math.random() * 35),
                     votes: s.votes || 0,
                     time: timeAgo(s.created_at),
                 }));
-                // Merge: API submissions first, then seed data
-                submissions = [...apiSubmissions, ...SEED_DATA];
             }
         } catch (err) {
-            console.warn('[Train] Could not load from API, using local data:', err.message);
+            console.warn('[Train] Could not load feed from API:', err.message);
         }
         renderFeed();
-        renderLeaderboard();
         if (submitCount) submitCount.textContent = submissions.length;
     }
 
+    // ─── Load Leaderboard from D1 API ─────────────────────────────────────────
+    async function loadLeaderboardFromAPI() {
+        try {
+            const resp = await fetch(`${WORKER_URL}/training/leaderboard`);
+            const data = await resp.json();
+            if (data.success) {
+                leaderboardData = data.leaderboard;
+            }
+        } catch (err) {
+            console.warn('[Train] Could not load leaderboard from API:', err.message);
+        }
+        renderLeaderboard();
+    }
+
     function timeAgo(timestamp) {
+        if (!timestamp) return 'just now';
         const diff = Date.now() - timestamp;
-        const mins = Math.floor(diff / 60000);
+        const mins = Math.max(0, Math.floor(diff / 60000));
         if (mins < 60) return `${mins}m ago`;
         const hours = Math.floor(mins / 60);
         if (hours < 24) return `${hours}h ago`;
@@ -92,10 +98,14 @@
 
             const user = auth.getUser();
             const author = authorInput || user?.name || 'Anonymous';
-            const avatars = ['🔗', '⚡', '🌊', '🔮', '🎯', '🚀', '💡', '🛡️', '🦊', '🐉'];
 
             // Save to D1 via API
             try {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Submitting...';
+
                 const resp = await fetch(`${WORKER_URL}/training/save`, {
                     method: 'POST',
                     headers: {
@@ -106,13 +116,15 @@
                 });
                 const data = await resp.json();
 
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+
                 if (!resp.ok) throw new Error(data.error || 'Failed to save.');
 
                 const newEntry = {
                     id: data.id || Date.now(),
                     term, cat, diff, def,
                     author,
-                    avatar: avatars[Math.floor(Math.random() * avatars.length)],
                     confidence: Math.floor(60 + Math.random() * 35),
                     votes: 0,
                     time: 'just now'
@@ -121,12 +133,21 @@
                 submissions.unshift(newEntry);
                 form.reset();
                 renderFeed();
-                renderLeaderboard();
                 showToast('✨ Your contribution has been saved to ChainMind!', 'success');
                 if (submitCount) submitCount.textContent = submissions.length;
 
+                // Refresh leaderboard dynamically
+                loadLeaderboardFromAPI();
+
             } catch (err) {
                 showToast(err.message || 'Failed to save. Please try again.', 'error');
+                
+                // If it fails, restore the button text anyway
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                   submitBtn.disabled = false;
+                   submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 10v2"></path><circle cx="12" cy="16" r="2"></circle><path d="M12 18v2"></path><path d="M7 20h10"></path><path d="M5 8h2"></path><path d="M17 8h2"></path></svg> Submit to Train the AI';
+                }
             }
         });
     }
@@ -140,6 +161,12 @@
     function renderFeed() {
         if (!feedGrid) return;
         feedGrid.innerHTML = '';
+        
+        if (submissions.length === 0) {
+            feedGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem 0;color:var(--text-muted);font-size:0.95rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);">No submissions yet. Be the first to train the AI!</div>';
+            return;
+        }
+
         submissions.forEach(sub => {
             const hasVoted = votes.includes(sub.id);
             const card = document.createElement('div');
@@ -157,21 +184,21 @@
             ▲ <span class="vote-count">${sub.votes}</span>
           </button>
         </div>
-        <p style="font-size:0.88rem;margin-bottom:0.75rem">${sub.def}</p>
+        <p style="font-size:0.88rem;margin-bottom:0.75rem;line-height:1.6">${sub.def}</p>
         <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.78rem;color:var(--text-muted)">
-          <span>${sub.avatar} ${sub.author} · ${sub.time}</span>
+          <span style="display:flex;align-items:center;gap:0.4rem">${userAvatarSvg} <strong>${sub.author}</strong> · ${sub.time}</span>
         </div>
-        <div class="confidence-bar-wrap">
-          <div class="confidence-label"><span>AI Confidence</span><span>${sub.confidence}%</span></div>
+        <div class="confidence-bar-wrap" style="margin-top:1rem">
+          <div class="confidence-label"><span>AI Confidence Match</span><span>${sub.confidence}%</span></div>
           <div class="confidence-bar"><div class="confidence-fill" style="width:${sub.confidence}%"></div></div>
         </div>`;
 
             card.querySelector('.upvote-btn').addEventListener('click', async function () {
                 if (votes.includes(sub.id)) { showToast('Already voted!', 'info'); return; }
 
-                // Vote via API if it's a D1 submission (not seed)
+                // Vote via API
                 const auth = window.ChainMindAuth;
-                if (sub.time !== 'seed' && auth && auth.isLoggedIn()) {
+                if (auth && auth.isLoggedIn()) {
                     try {
                         await fetch(`${WORKER_URL}/training/vote`, {
                             method: 'POST',
@@ -186,40 +213,39 @@
                 localStorage.setItem('w3ai_votes', JSON.stringify(votes));
                 this.classList.add('voted');
                 this.querySelector('.vote-count').textContent = sub.votes;
-                renderLeaderboard();
                 showToast('Vote cast!', 'success');
+                
+                // Refresh leaderboard if we voted
+                loadLeaderboardFromAPI();
             });
 
             feedGrid.appendChild(card);
         });
     }
 
-    // ─── Leaderboard ──────────────────────────────────────────────────────────
+    // ─── Render Leaderboard ───────────────────────────────────────────────────
     function renderLeaderboard() {
         if (!lbList) return;
-        const authors = {};
-        submissions.forEach(s => {
-            authors[s.author] = (authors[s.author] || 0) + s.votes + 1;
-        });
-        const sorted = Object.entries(authors).sort((a, b) => b[1] - a[1]).slice(0, 8);
         lbList.innerHTML = '';
-        sorted.forEach(([author, score], i) => {
+        
+        if (leaderboardData.length === 0) {
+            lbList.innerHTML = '<div style="text-align:center;padding:1.5rem 0;color:var(--text-muted);font-size:0.85rem;">No ranking data yet. Earn points by submitting and getting upvotes!</div>';
+            return;
+        }
+
+        leaderboardData.forEach((entry, i) => {
             const li = document.createElement('div');
             li.className = 'leaderboard-item';
             const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-other';
             li.innerHTML = `
         <div class="rank-badge ${rankClass}">${i + 1}</div>
-        <div style="flex:1"><div style="font-weight:600;font-size:0.9rem">${author}</div></div>
-        <div style="font-size:0.85rem;color:var(--yellow-1);font-weight:700">⚡ ${score} pts</div>`;
+        <div style="flex:1"><div style="font-weight:600;font-size:0.9rem">${entry.author}</div></div>
+        <div style="font-size:0.85rem;color:var(--yellow-1);font-weight:700;display:flex;align-items:center">${pointsSvg}${entry.score} pts</div>`;
             lbList.appendChild(li);
         });
     }
 
-    // Init — render seed immediately, then load from API
-    renderFeed();
-    renderLeaderboard();
-    if (submitCount) submitCount.textContent = submissions.length;
-
-    // Load real data from D1 in background
+    // Init
     loadFeedFromAPI();
+    loadLeaderboardFromAPI();
 })();
