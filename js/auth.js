@@ -294,13 +294,13 @@
             }
             .auth-backdrop {
                 position: absolute; inset: 0;
-                background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+                background: rgba(15,23,42,0.3); backdrop-filter: blur(6px);
             }
             .auth-card {
                 position: relative; z-index: 1;
-                background: var(--bg-card, #1a1a2e); border: 1px solid var(--border, rgba(255,255,255,0.08));
+                background: #ffffff; border: 1px solid #e2e8f0;
                 border-radius: 16px; padding: 2rem; width: 100%; max-width: 420px;
-                box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+                box-shadow: 0 24px 48px rgba(0,0,0,0.1);
                 animation: authSlideUp 0.35s ease;
             }
             @keyframes authSlideUp {
@@ -311,26 +311,27 @@
             .auth-logo {
                 display: flex; align-items: center; justify-content: center; gap: 0.6rem;
                 font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;
+                color: #0f172a;
             }
-            .auth-subtitle { font-size: 0.85rem; color: var(--text-muted, #888); }
+            .auth-subtitle { font-size: 0.85rem; color: #64748b; }
             .auth-tabs {
                 display: flex; gap: 0; margin-bottom: 1.5rem;
-                border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 10px;
+                border: 1px solid #e2e8f0; border-radius: 10px;
                 overflow: hidden;
             }
             .auth-tab {
                 flex: 1; padding: 0.65rem; font-size: 0.85rem; font-weight: 600;
-                background: transparent; border: none; color: var(--text-muted, #888);
+                background: transparent; border: none; color: #94a3b8;
                 cursor: pointer; transition: all 0.2s;
             }
             .auth-tab.active {
-                background: var(--grad-primary, linear-gradient(135deg,#7c3aed,#06b6d4));
+                background: var(--grad-primary, linear-gradient(135deg,#6366f1,#8b5cf6));
                 color: #fff;
             }
             .auth-field { margin-bottom: 1rem; }
             .auth-field label {
                 display: block; font-size: 0.8rem; font-weight: 600;
-                margin-bottom: 0.35rem; color: var(--text-secondary, #aaa);
+                margin-bottom: 0.35rem; color: #475569;
             }
             .auth-submit {
                 width: 100%; justify-content: center; margin-top: 0.5rem;
@@ -342,7 +343,7 @@
             }
             .auth-footer {
                 margin-top: 1.25rem; text-align: center;
-                font-size: 0.75rem; color: var(--text-muted, #666);
+                font-size: 0.75rem; color: #94a3b8;
             }
 
             /* Navbar user display — compact */
@@ -351,7 +352,7 @@
             }
             .nav-user-avatar {
                 width: 32px; height: 32px; border-radius: 50%;
-                background: linear-gradient(135deg,#7c3aed,#06b6d4);
+                background: linear-gradient(135deg,#6366f1,#8b5cf6);
                 display: flex; align-items: center; justify-content: center;
                 font-size: 0.8rem; font-weight: 700; color: #fff;
                 flex-shrink: 0;
@@ -360,10 +361,10 @@
                 font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
                 letter-spacing: 0.05em; padding: 2px 7px; border-radius: 4px;
             }
-            .nav-plan-badge.pro { background: linear-gradient(135deg,#7c3aed,#06b6d4); color: #fff; }
-            .nav-plan-badge.free { background: rgba(255,255,255,0.1); color: var(--text-muted, #888); }
+            .nav-plan-badge.pro { background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; }
+            .nav-plan-badge.free { background: #f1f5f9; color: #94a3b8; }
             .nav-logout-btn {
-                background: none; border: none; color: var(--text-muted, #888);
+                background: none; border: none; color: #94a3b8;
                 cursor: pointer; font-size: 0.75rem; padding: 0.2rem;
                 opacity: 0.5; transition: opacity 0.2s;
             }
