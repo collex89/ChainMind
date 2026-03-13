@@ -89,183 +89,151 @@
     
 
     <div class="page-header">
-        <div class="eyebrow"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div class="eyebrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:0.4rem"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             Feedback</div>
         <h1>Share your <span class="grad-text">thoughts</span></h1>
         <p>Bug reports, feature ideas, general feedback — it all goes straight to the team inbox at <strong
-                style="color:var(--purple-1)">ugwucollins881@gmail.com</strong></p>
+                style="color:var(--purple-1)">chainmind000@gmail.com</strong></p>
     </div>
 
     <div class="container section" style="padding-top:0;position:relative;z-index:1">
         <div class="feedback-layout">
             <!-- Main form -->
             <div>
-                <div class="card" style="padding:2rem;overflow:hidden">
+                <div class="card" style="padding:2.5rem;overflow:hidden">
 
                     <!-- Form -->
-                    <form id="feedback-form">
+                    <form id="feedback-form" onsubmit="submitFeedback(event)">
                         <!-- Feedback type -->
                         <div class="form-row">
-                            <label>Feedback Type *</label>
+                            <label style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.75rem">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                                Feedback Type <span style="color:#ef4444">*</span>
+                            </label>
                             <div class="feedback-type-grid">
                                 <label class="type-option">
-                                    <input type="radio" name="fb-type" value="bug" />
-                                    <span class="type-icon">🐛</span>
+                                    <input type="radio" name="fb-type" value="bug" required />
+                                    <span class="type-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"></path><path d="M7 20v-4"></path><path d="M12 20v-8"></path><path d="M17 20V8"></path><path d="M22 4v16"></path></svg></span>
                                     <span class="type-label">Bug Report</span>
                                 </label>
                                 <label class="type-option">
                                     <input type="radio" name="fb-type" value="feature" />
-                                    <span class="type-icon">💡</span>
+                                    <span class="type-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg></span>
                                     <span class="type-label">Feature Request</span>
                                 </label>
                                 <label class="type-option">
                                     <input type="radio" name="fb-type" value="content" />
-                                    <span class="type-icon">📝</span>
+                                    <span class="type-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></span>
                                     <span class="type-label">Content Suggestion</span>
                                 </label>
                                 <label class="type-option">
                                     <input type="radio" name="fb-type" value="general" />
-                                    <span class="type-icon">💬</span>
+                                    <span class="type-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
                                     <span class="type-label">General Feedback</span>
                                 </label>
                             </div>
                         </div>
 
                         <!-- Star Rating -->
-                        <div class="form-row">
-                            <label>Overall Rating *</label>
-                            <div class="rating-stars">
-                                <button type="button" class="star-btn" data-star="1">★</button>
-                                <button type="button" class="star-btn" data-star="2">★</button>
-                                <button type="button" class="star-btn" data-star="3">★</button>
-                                <button type="button" class="star-btn" data-star="4">★</button>
-                                <button type="button" class="star-btn" data-star="5">★</button>
+                        <div class="form-row" style="margin-top:1.5rem">
+                            <label style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.75rem">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                Overall Rating <span style="color:#ef4444">*</span>
+                            </label>
+                            <div class="rating-stars" id="rating-container">
+                                <button type="button" class="star-btn" data-star="1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                                <button type="button" class="star-btn" data-star="2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                                <button type="button" class="star-btn" data-star="3"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                                <button type="button" class="star-btn" data-star="4"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                                <button type="button" class="star-btn" data-star="5"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>
+                                <input type="hidden" id="fb-rating" value="0" required />
                             </div>
                         </div>
 
-                        <hr class="divider" />
+                        <hr class="divider" style="margin:2rem 0" />
 
                         <!-- Name & Email -->
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
                             <div>
-                                <label for="fb-name">Your Name *</label>
-                                <input class="input" id="fb-name" type="text" placeholder="Satoshi..." required />
+                                <label for="fb-name">Your Name <span style="color:#ef4444">*</span></label>
+                                <input class="input" id="fb-name" name="name" type="text" placeholder="Satoshi Nakamoto" required />
                             </div>
                             <div>
-                                <label for="fb-email">Your Email (optional)</label>
-                                <input class="input" id="fb-email" type="email" placeholder="you@example.com" />
+                                <label for="fb-email">Your Email <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400">(optional)</span></label>
+                                <input class="input" id="fb-email" name="email" type="email" placeholder="you@example.com" />
                             </div>
                         </div>
 
                         <!-- Message -->
-                        <div class="form-row">
-                            <label for="fb-message">Message *</label>
-                            <textarea class="input textarea" id="fb-message" rows="5"
+                        <div class="form-row" style="margin-bottom:2rem">
+                            <label for="fb-message">Message <span style="color:#ef4444">*</span></label>
+                            <textarea class="input textarea" id="fb-message" name="message" rows="5"
                                 placeholder="Describe your feedback in detail..." required></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary" id="feedback-submit"
-                            style="width:100%;justify-content:center;padding:0.9rem;font-size:1rem">
-                            📨 Send Feedback
+                            style="width:100%;justify-content:center;padding:1rem;font-size:1.05rem;display:flex;align-items:center;gap:0.5rem">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            Send Feedback
                         </button>
 
-                        <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:0.75rem">
-                            Sent securely to <strong>ugwucollins881@gmail.com</strong> via EmailJS
+                        <p style="font-size:0.8rem;color:var(--text-muted);text-align:center;margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:0.4rem">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            Securely routed directly to the development team
                         </p>
                     </form>
 
                     <!-- Success state -->
-                    <div class="feedback-success" id="feedback-success">
-                        <div class="success-icon">🎉</div>
-                        <h2 style="margin-bottom:0.5rem">Feedback Sent!</h2>
-                        <p style="margin-bottom:2rem">Thanks for helping ChainMind improve. We'll
+                    <div class="feedback-success" id="feedback-success" style="display:none">
+                        <div class="success-icon" style="color:var(--green-1)">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                        <h2 style="margin-bottom:0.75rem;font-size:1.75rem">Feedback Sent!</h2>
+                        <p style="margin-bottom:2.5rem;color:var(--text-secondary);line-height:1.6">Thanks for helping ChainMind improve. We'll
                             review your message
                             shortly.</p>
-                        <button class="btn btn-outline" id="feedback-reset">Send Another</button>
+                        <button class="btn btn-outline" id="feedback-reset" onclick="resetFeedbackForm()" style="padding:0.75rem 1.5rem">Send Another</button>
                     </div>
-                </div>
-
-                <!-- EmailJS setup note -->
-                <div class="card" style="padding:1.25rem;margin-top:1.25rem;border-color:rgba(245,158,11,0.3)">
-                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;color:var(--yellow-1)">
-                        ⚙️ EmailJS
-                        Setup (One-Time)</h4>
-                    <ol
-                        style="font-size:0.82rem;color:var(--text-secondary);padding-left:1.2rem;display:flex;flex-direction:column;gap:0.4rem">
-                        <li>Sign up at <a href="https://www.emailjs.com" target="_blank"
-                                style="color:var(--cyan-1)">emailjs.com</a> (free tier — 200
-                            emails/month)</li>
-                        <li>Create a Gmail service → copy <strong>Service ID</strong></li>
-                        <li>Create a template using variables: <code
-                                style="font-family:var(--font-mono);color:var(--purple-1)">&#123;&#123;from_name&#125;&#125;</code>,
-                            <code
-                                style="font-family:var(--font-mono);color:var(--purple-1)">&#123;&#123;message&#125;&#125;</code>,
-                            <code
-                                style="font-family:var(--font-mono);color:var(--purple-1)">&#123;&#123;rating&#125;&#125;</code>
-                            etc. → copy <strong>Template ID</strong>
-                        </li>
-                        <li>Account → API Keys → copy <strong>Public Key</strong></li>
-                        <li>Open <code style="font-family:var(--font-mono);color:var(--purple-1)">js/feedback.js</code>
-                            and paste the three IDs at the top</li>
-                    </ol>
                 </div>
             </div>
 
             <!-- Sidebar -->
-            <div style="position:sticky;top:88px;display:flex;flex-direction:column;gap:1.25rem">
-                <div class="card" style="padding:1.5rem">
-                    <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:1rem"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> What happens
-                        next?</h4>
-                    <div style="display:flex;flex-direction:column;gap:0.85rem">
-                        <div style="display:flex;gap:0.75rem;align-items:flex-start">
-                            <div
-                                style="width:28px;height:28px;border-radius:50%;background:rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--purple-1);flex-shrink:0">
-                                1</div>
-                            <p style="font-size:0.83rem">Your feedback is emailed instantly to the
-                                team.</p>
-                        </div>
-                        <div style="display:flex;gap:0.75rem;align-items:flex-start">
-                            <div
-                                style="width:28px;height:28px;border-radius:50%;background:rgba(34,211,238,0.12);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--cyan-1);flex-shrink:0">
-                                2</div>
-                            <p style="font-size:0.83rem">We review all submissions within 48 hours.
-                            </p>
-                        </div>
-                        <div style="display:flex;gap:0.75rem;align-items:flex-start">
-                            <div
-                                style="width:28px;height:28px;border-radius:50%;background:rgba(16,185,129,0.12);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--green-1);flex-shrink:0">
-                                3</div>
-                            <p style="font-size:0.83rem">Features & fixes are prioritized by vote
-                                and recurrence.</p>
-                        </div>
-                    </div>
+            <div style="position:sticky;top:88px;display:flex;flex-direction:column;gap:1.5rem">
+                <div class="card" style="padding:1.75rem">
+                    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> Let's Talk
+                    </h4>
+                    <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1rem">
+                        We read every single piece of feedback that comes through. We're actively building the next generation of Web3 tools based on what you want to see.
+                    </p>
+                    <a href="mailto:chainmind000@gmail.com" class="btn btn-outline" style="width:100%;justify-content:center;font-size:0.85rem">
+                        Direct Email
+                    </a>
                 </div>
 
-                <div class="card" style="padding:1.5rem">
-                    <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem">🌐 Quick
-                        Links</h4>
-                    <div style="display:flex;flex-direction:column;gap:0.5rem">
+                <div class="card" style="padding:1.75rem">
+                    <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Quick Links
+                    </h4>
+                    <div style="display:flex;flex-direction:column;gap:0.75rem">
                         <a href="research.html"
-                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                            AI Research Hub</a>
+                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary);transition:color 0.2s" onmouseover="this.style.color='var(--purple-1)'" onmouseout="this.style.color='var(--text-secondary)'">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            AI Research Hub
+                        </a>
                         <a href="learn.html"
-                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                            Web3 Glossary</a>
+                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary);transition:color 0.2s" onmouseover="this.style.color='var(--purple-1)'" onmouseout="this.style.color='var(--text-secondary)'">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            Web3 Glossary
+                        </a>
                         <a href="train.html"
-                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 10v2"/><circle cx="12" cy="16" r="2"/><path d="M12 18v2"/><path d="M7 20h10"/><path d="M5 8h2"/><path d="M17 8h2"/></svg>
-                            Train the AI</a>
-                        <a href="jobs.html"
-                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary)"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                            Job Board</a>
+                            style="font-size:0.85rem;display:flex;gap:0.5rem;align-items:center;color:var(--text-secondary);transition:color 0.2s" onmouseover="this.style.color='var(--purple-1)'" onmouseout="this.style.color='var(--text-secondary)'">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 10v2"/><circle cx="12" cy="16" r="2"/><path d="M12 18v2"/><path d="M7 20h10"/><path d="M5 8h2"/><path d="M17 8h2"/></svg>
+                            Train the AI
+                        </a>
                     </div>
                 </div>
 
-                <div class="card" style="padding:1.5rem;text-align:center">
-                    <div style="font-size:2rem;margin-bottom:0.5rem">💜</div>
-                    <p style="font-size:0.83rem">ChainMind is built with love for the community.
-                        Every piece of feedback
-                        makes it better.</p>
-                </div>
             </div>
         </div>
     </div>

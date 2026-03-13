@@ -748,17 +748,22 @@
 
                 <!-- Config card -->
                 <div class="card" style="padding:1.75rem;margin-bottom:2rem">
-                    <h3 style="font-size:1rem;margin-bottom:1.25rem">⚙️ Configure your thread</h3>
+                    <h3 style="font-size:1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.5rem">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        Configure your thread
+                    </h3>
 
                     <!-- Document Upload Zone (PRO) -->
                     <div style="margin-bottom:1.25rem">
-                        <label>📄 Upload Document <span
-                                style="font-size:0.7rem;color:var(--purple-1);font-weight:700">PRO</span></label>
+                        <label style="display:flex;align-items:center;gap:0.4rem">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            Upload Document <span style="font-size:0.7rem;color:var(--purple-1);font-weight:700">PRO</span>
+                        </label>
                         <div class="doc-upload-zone" id="doc-drop-zone" style="margin-top:0.4rem">
                             <button class="doc-clear-btn" id="doc-clear-btn" title="Remove document">✕</button>
                             <input type="file" id="doc-file-input" accept=".txt,.md,.pdf,.text,.markdown"
                                 style="display:none" />
-                            <div class="doc-upload-icon">📁</div>
+                            <div class="doc-upload-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple-1)"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></div>
                             <div class="doc-upload-label">Drop a document here or <strong
                                     style="color:var(--purple-1)">click to browse</strong></div>
                             <div class="doc-upload-hint">Supports .txt, .md, .pdf · Max 10MB</div>
@@ -769,9 +774,7 @@
                     <!-- Topic input -->
                     <div style="margin-bottom:1.25rem">
                         <label for="tweet-topic">Topic or keyword <span
-                                style="font-size:0.75rem;color:var(--text-muted)">(optional if
-                                document
-                                uploaded)</span></label>
+                                style="font-size:0.75rem;color:var(--text-muted)">(optional if document uploaded)</span></label>
                         <input class="input" id="tweet-topic" type="text"
                             placeholder="e.g. DeFi, NFTs, ZK rollups, impermanent loss..." style="margin-top:0.4rem" />
                     </div>
@@ -780,11 +783,11 @@
                     <div style="margin-bottom:1.25rem">
                         <label for="tweet-tone">Tone</label>
                         <select class="input select" id="tweet-tone" style="margin-top:0.4rem">
-                            <option value="neutral">🧊 Neutral / Balanced</option>
-                            <option value="degen">🎲 Degen / Crypto Twitter</option>
-                            <option value="professional">🏦 Professional / Analytical</option>
-                            <option value="beginner">📚 Beginner-Friendly</option>
-                            <option value="witty">😏 Witty / Contrarian</option>
+                            <option value="neutral">Neutral / Balanced</option>
+                            <option value="degen">Degen / Crypto Twitter</option>
+                            <option value="professional">Professional / Analytical</option>
+                            <option value="beginner">Beginner-Friendly</option>
+                            <option value="witty">Witty / Contrarian</option>
                         </select>
                     </div>
 
@@ -793,30 +796,32 @@
                         <label style="display:block;margin-bottom:0.6rem">Thread Style</label>
                         <div class="tmpl-grid">
                             <button class="tmpl-btn active" data-tmpl="educational">
-                                <span class="tmpl-icon">🎓</span>Educational
+                                <span class="tmpl-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></span>Educational
                             </button>
                             <button class="tmpl-btn" data-tmpl="alpha">
                                 <span class="tmpl-icon"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Alpha Drop
                             </button>
                             <button class="tmpl-btn" data-tmpl="opinion">
-                                <span class="tmpl-icon">💬</span>Hot Take
+                                <span class="tmpl-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>Hot Take
                             </button>
                             <button class="tmpl-btn" data-tmpl="howto">
-                                <span class="tmpl-icon">🛠</span>How-To Guide
+                                <span class="tmpl-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg></span>How-To Guide
                             </button>
                             <button class="tmpl-btn" data-tmpl="news">
-                                <span class="tmpl-icon">📰</span>News Breakdown
+                                <span class="tmpl-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"></path><path d="M15 11h2"></path><path d="M15 15h2"></path><path d="M7 11h2"></path><path d="M7 15h2"></path><path d="M11 7h2"></path><path d="M11 11h2"></path><path d="M11 15h2"></path></svg></span>News Breakdown
                             </button>
                             <button class="tmpl-btn tmpl-pro" data-tmpl="document">
-                                <span class="tmpl-icon">📄</span>Doc Analysis
+                                <span class="tmpl-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></span>Doc Analysis
                             </button>
                         </div>
                     </div>
 
                     <!-- Tweet Count (PRO) -->
                     <div style="margin-bottom:1.5rem">
-                        <label>🔢 Number of Tweets <span
-                                style="font-size:0.7rem;color:var(--purple-1);font-weight:700">PRO</span></label>
+                        <label style="display:flex;align-items:center;gap:0.4rem">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            Number of Tweets <span style="font-size:0.7rem;color:var(--purple-1);font-weight:700">PRO</span>
+                        </label>
                         <div class="tweet-count-control" style="margin-top:0.5rem">
                             <input type="range" class="tweet-count-slider" id="tweet-count-slider" min="3" max="20"
                                 value="8" />
@@ -832,11 +837,12 @@
                     <!-- Generate buttons -->
                     <div style="display:flex;gap:1rem;flex-wrap:wrap">
                         <button class="btn btn-primary" id="generate-btn"
-                            style="flex:1;justify-content:center;padding:0.85rem">
-                            🧵 Generate Thread
+                            style="flex:1;justify-content:center;padding:0.85rem;display:flex;align-items:center;gap:0.5rem">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="2" x2="8" y2="22"></line><line x1="16" y1="2" x2="16" y2="22"></line><line x1="2" y1="8" x2="22" y2="8"></line><line x1="2" y1="16" x2="22" y2="16"></line></svg>
+                            Generate Thread
                         </button>
                         <button class="btn btn-outline" id="gen-single-btn"
-                            style="flex:1;justify-content:center;padding:0.85rem">
+                            style="flex:1;justify-content:center;padding:0.85rem;display:flex;align-items:center;gap:0.5rem">
                             <svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                             Craft Single Tweet
                         </button>
@@ -845,9 +851,10 @@
                     <!-- Single tweet output -->
                     <div id="single-tweet-container" style="display:none">
                         <div style="height:1px;background:var(--border);margin:1.25rem 0"></div>
-                        <label style="margin-bottom:0.5rem;display:block">✏️ Your Tweet <span
-                                style="font-size:0.75rem;color:var(--text-muted)">(edit
-                                freely)</span></label>
+                        <label style="margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            Your Tweet <span style="font-size:0.75rem;color:var(--text-muted)">(edit freely)</span>
+                        </label>
                         <div class="single-tweet-wrap">
                             <textarea id="single-tweet-input" rows="4"
                                 placeholder="Your tweet will appear here..."></textarea>
@@ -896,63 +903,52 @@
             <div class="tweet-sidebar">
 
                 <div class="card" style="padding:1.25rem">
-                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem">📝 Writing
-                        Tips</h4>
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem;display:flex;align-items:center;gap:0.4rem">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg> Writing Tips
+                    </h4>
                     <div style="display:flex;flex-direction:column;gap:0.7rem">
                         <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
-                            <span>🧵</span><span>Start with a strong hook — your first tweet decides
-                                if people keep
-                                reading</span>
+                            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple-1);margin-top:0.2rem"><line x1="8" y1="2" x2="8" y2="22"></line><line x1="16" y1="2" x2="16" y2="22"></line><line x1="2" y1="8" x2="22" y2="8"></line><line x1="2" y1="16" x2="22" y2="16"></line></svg></span><span>Start with a strong hook — your first tweet decides if people keep reading</span>
                         </div>
                         <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
-                            <span>🔢</span><span>Use numbered lists and line breaks — walls of text
-                                kill
-                                engagement</span>
+                            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple-1);margin-top:0.2rem"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></span><span>Use numbered lists and line breaks — walls of text kill engagement</span>
                         </div>
                         <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
-                            <span>🎯</span><span>End with a clear CTA: follow, RT, or reply. One
-                                action only.</span>
+                            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple-1);margin-top:0.2rem"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span><span>End with a clear CTA: follow, RT, or reply. One action only.</span>
                         </div>
                         <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
-                            <span>⏰</span><span>Best times to post: 7–9 AM EST or 6–9 PM EST on
-                                weekdays</span>
+                            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple-1);margin-top:0.2rem"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><span>Best times to post: 7–9 AM EST or 6–9 PM EST on weekdays</span>
                         </div>
                         <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;gap:0.5rem">
-                            <span>🔥</span><span>Embed images in key tweets — visual tweets get 3×
-                                more
-                                engagement</span>
+                            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple-1);margin-top:0.2rem"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span><span>Embed images in key tweets — visual tweets get 3× more engagement</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="card" style="padding:1.25rem">
-                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem">📊 Ideal
-                        Thread Length</h4>
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem;display:flex;align-items:center;gap:0.4rem">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg> Ideal Thread Length
+                    </h4>
                     <div style="display:flex;flex-direction:column;gap:0.6rem">
                         <div style="display:flex;justify-content:space-between;font-size:0.82rem">
-                            <span>🎯 Sweet spot</span><span style="color:var(--green-1);font-weight:700">7–12
-                                tweets</span>
+                            <span style="display:flex;align-items:center;gap:0.4rem"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--green-1)"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg> Sweet spot</span><span style="color:var(--green-1);font-weight:700">7–12 tweets</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;font-size:0.82rem">
-                            <span><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Quick
-                                thread</span><span style="color:var(--cyan-1);font-weight:700">4–6
-                                tweets</span>
+                            <span style="display:flex;align-items:center;gap:0.4rem"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cyan-1)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Quick thread</span><span style="color:var(--cyan-1);font-weight:700">4–6 tweets</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;font-size:0.82rem">
-                            <span><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Deep
-                                dive</span><span style="color:var(--purple-1);font-weight:700">13–20
-                                tweets</span>
+                            <span style="display:flex;align-items:center;gap:0.4rem"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--purple-1)"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Deep dive</span><span style="color:var(--purple-1);font-weight:700">13–20 tweets</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;font-size:0.82rem">
-                            <span>❌ Too long</span><span style="color:#ef4444;font-weight:700">20+
-                                tweets</span>
+                            <span style="display:flex;align-items:center;gap:0.4rem"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#ef4444"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Too long</span><span style="color:#ef4444;font-weight:700">20+ tweets</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="card" style="padding:1.25rem">
-                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem">💾 Saved
-                        Drafts</h4>
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.85rem;display:flex;align-items:center;gap:0.4rem">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Saved Drafts
+                    </h4>
                     <div id="drafts-list">
                         <p style="color:var(--text-muted);font-size:0.82rem">No saved drafts yet.
                         </p>
@@ -960,7 +956,8 @@
                 </div>
 
                 <div class="card" style="padding:1.25rem">
-                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> Related Tools
+                    <h4 style="font-size:0.85rem;font-weight:700;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-secondary)"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Related Tools
                     </h4>
                     <div style="display:flex;flex-direction:column;gap:0.5rem">
                         <a href="research.html" style="font-size:0.85rem;color:var(--text-secondary)"><svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Research
