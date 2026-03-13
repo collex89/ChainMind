@@ -153,8 +153,11 @@
                     <div id="auth-signup-error" class="auth-error"></div>
                 </form>
 
-                <div class="auth-footer">
-                    <span>🔒 Secure · No spam · Your data is safe</span>
+                <div class="auth-footer" style="margin-top: 1.5rem; text-align: center;">
+                    <a href="index.html" style="color: #64748b; text-decoration: none; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.2s;" onmouseover="this.style.color='#6366f1'" onmouseout="this.style.color='#64748b'">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                        Back to Landing Page
+                    </a>
                 </div>
             </div>
         `;
