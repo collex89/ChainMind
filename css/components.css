@@ -941,3 +941,21 @@ footer a:hover {
 .modal-close:hover {
     color: var(--text-primary);
 }
+
+/* ─── Thread Writer Actions ───────────────────────────────────────────────── */
+.generate-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .generate-actions {
+        flex-direction: column;
+    }
+    
+    .generate-actions .btn {
+        width: 100%;
+        flex: none !important;
+    }
+}
