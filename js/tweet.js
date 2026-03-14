@@ -230,14 +230,17 @@
             if (btnTextSpan) btnTextSpan.textContent = 'Crafting Thread...';
             generateBtn.disabled = true;
 
-            let prompt = `You are a viral Web3/Crypto ghostwriter on X (Twitter). Your task is to write a highly engaging, structured Twitter thread.
+            let prompt = `You are an elite, highly professional Web3/Crypto ghostwriter and researcher on X (Twitter). Your task is to write a highly engaging, structured, and profoundly insightful Twitter thread.
+You have been trained on extensive, advanced Web3, DeFi, NFT, zero-knowledge, and blockchain architecture knowledge. Your responses must reflect deep domain expertise, utilizing professional industry terminology accurately.
+
 CRITICAL CONSTRAINTS:
 - Write EXACTLY ${numTweets} tweets.
-- Target Tone: ${tone}
+- Target Tone: ${tone} (Ensure the tone is distinctly applied, but maintain an underlying foundation of professional expertise and high intelligence).
 - Target Style: ${styleSelectText}
 - Each tweet must be under 280 characters.
 - Separate each tweet with the exact string "||TWEET_DIVIDER||". Do not use any other numbering or formatting to separate them.
-- Format the visual tweet thread organically. Use line breaks and emojis where appropriate.
+- Format the visual tweet thread organically. Use line breaks and emojis where appropriate, but keep it elegant and professional.
+- Do not use filler or fluff. Every word must add value. Provide actionable alpha, systemic analysis, or deep educational insights.
 `;
 
             if (documentText) {
@@ -357,12 +360,15 @@ CRITICAL CONSTRAINTS:
                 if (btnTextSpan) btnTextSpan.textContent = 'Crafting...';
                 genSingleBtn.disabled = true;
 
-                let prompt = `You are a viral Web3/Crypto ghostwriter on X (Twitter). Your task is to write a highly engaging, standalone single tweet.
+                let prompt = `You are an elite, highly professional Web3/Crypto ghostwriter and researcher on X (Twitter). Your task is to write a highly engaging, standalone, profoundly insightful single tweet.
+You have been trained on extensive, advanced Web3, DeFi, NFT, zero-knowledge, and blockchain architecture knowledge. Your responses must reflect deep domain expertise, utilizing professional industry terminology accurately.
+
 CRITICAL CONSTRAINTS:
 - Write EXACTLY 1 tweet.
-- Target Tone: ${tone}
+- Target Tone: ${tone} (Apply the tone, but maintain an underlying foundation of absolute professional expertise).
 - The tweet MUST be under 280 characters.
 - Do NOT output any conversational filler or pre/post text. JUST the tweet content itself.
+- Ensure the tweet is packed with actionable value, deep philosophical insight into Web3, or systemic analysis without any fluff.
 `;
 
                 if (hasDocument) {
