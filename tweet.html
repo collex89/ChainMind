@@ -771,12 +771,11 @@
                         </div>
                     </div>
 
-                    <!-- Topic input -->
                     <div style="margin-bottom:1.25rem">
-                        <label for="tweet-topic">Topic or keyword <span
+                        <label for="tweet-topic">Clue / Topic <span
                                 style="font-size:0.75rem;color:var(--text-muted)">(optional if document uploaded)</span></label>
                         <input class="input" id="tweet-topic" type="text"
-                            placeholder="e.g. DeFi, NFTs, ZK rollups, impermanent loss..." style="margin-top:0.4rem" />
+                            placeholder="e.g. Write a thread about ZK rollups vs Optimistic rollups..." style="margin-top:0.4rem" />
                     </div>
 
                     <!-- Tone -->
@@ -835,16 +834,16 @@
                     </div>
 
                     <!-- Generate buttons -->
-                    <div class="generate-actions">
+                    <div class="generate-actions" style="display:flex; gap:1rem; flex-wrap:wrap">
                         <button class="btn btn-primary" id="generate-btn"
                             style="flex:1;justify-content:center;padding:0.85rem;display:flex;align-items:center;gap:0.5rem">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="2" x2="8" y2="22"></line><line x1="16" y1="2" x2="16" y2="22"></line><line x1="2" y1="8" x2="22" y2="8"></line><line x1="2" y1="16" x2="22" y2="16"></line></svg>
-                            Generate Thread
+                            <span id="generate-btn-text">Generate Thread</span>
                         </button>
                         <button class="btn btn-outline" id="gen-single-btn"
                             style="flex:1;justify-content:center;padding:0.85rem;display:flex;align-items:center;gap:0.5rem">
                             <svg class="emoji-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                            Craft Single Tweet
+                            <span id="gen-single-btn-text">Craft Single Tweet</span>
                         </button>
                     </div>
 

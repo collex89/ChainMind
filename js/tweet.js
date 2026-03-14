@@ -85,93 +85,39 @@
         },
     };
 
-    const TOPIC_KNOWLEDGE = {
-        defi: {
-            tweets: [
-                'DeFi (Decentralized Finance) removes the middlemen from financial services. No banks. No brokers. Just code.',
-                'At the core of DeFi are smart contracts — self-executing programs on blockchains like Ethereum or Solana that handle transactions automatically.',
-                'The Total Value Locked (TVL) in DeFi protocols measures how much crypto is deposited. At its peak, DeFi held over $180B in assets.',
-                'Key DeFi primitives:\n• AMMs (Automated Market Makers)\n• Lending protocols\n• Yield aggregators\n• Stablecoins\n• Derivatives\n\nEach one replaces a traditional financial service.',
-                'AMMs like Uniswap use liquidity pools instead of order books. Users deposit token pairs and earn fees from every swap. That\'s yield farming basics.',
-                'Risks in DeFi are real:\n❌ Smart contract bugs\n❌ Rug pulls\n❌ Impermanent loss\n❌ Oracle manipulation\n\nAlways DYOR before depositing.',
-                'The best DeFi protocols have been audited, battle-tested, and are transparent about risk. Aave, Compound, Uniswap — all open-source.',
-            ]
-        },
-        nft: {
-            tweets: [
-                'NFTs (Non-Fungible Tokens) prove digital ownership on-chain. Each token is unique and cannot be copied — unlike regular crypto.',
-                'An NFT is just a token standard (ERC-721 or ERC-1155 on Ethereum). The magic is in what it represents: art, music, memberships, game items, real estate.',
-                'The biggest NFT sale ever: Beeple\'s "Everydays: The First 5000 Days" sold for $69.3 million at Christie\'s in March 2021.',
-                'NFT metadata stores the actual content (image, video, audio). Most live on IPFS or Arweave — decentralized storage that can\'t be taken down.',
-                'NFT utility beyond JPEGs:\n🎟️ Event tickets\n🎮 In-game items\n🏠 Real estate claims\n💎 Loyalty rewards\n📜 On-chain credentials',
-                'Royalties are one of NFTs\' most powerful features. Creators earn a % automatically on every secondary sale — smart contracts enforce it trustlessly.',
-                'The NFT space is evolving: dynamic NFTs that change based on real-world data, soulbound tokens for identity, and fractional NFTs are all growing fast.',
-            ]
-        },
-        layer2: {
-            tweets: [
-                'Layer 2 (L2) solutions scale Ethereum by processing transactions off-chain, then settling on Ethereum\'s mainnet. Speed goes up, fees go down.',
-                'There are 2 main L2 types:\n\n⚡ Optimistic Rollups — assume txs are valid, allow 7-day challenges\n🔐 ZK Rollups — use cryptographic proofs to verify validity instantly',
-                'Optimistic rollups (Arbitrum, Optimism, Base) are dominant today. They\'re Ethereum-compatible and easy to deploy existing Solidity contracts on.',
-                'ZK rollups (zkSync, StarkNet, Polygon zkEVM) offer faster finality and better security. They use zero-knowledge proofs to verify entire batches in one shot.',
-                'Transaction throughput comparison:\n• Ethereum L1: ~15 TPS\n• Arbitrum: ~40,000 TPS\n• zkSync: ~20,000 TPS\n\nThis is how crypto scales to billions of users.',
-                'The Ethereum roadmap is built around L2s. Danksharding (EIP-4844) cuts L2 data costs by 10-100x with "blobs" — a new transaction type for rollup data.',
-                'Bridge carefully. Moving assets between L1 ↔ L2 carries risk. Use well-audited bridges, never bridge your entire net worth at once.',
-            ]
-        },
-        dao: {
-            tweets: [
-                'A DAO (Decentralized Autonomous Organization) is an organization governed by code and token-based voting — not CEOs or boardrooms.',
-                'DAO governance works via proposals + voting. Token holders vote on everything: treasury spending, protocol upgrades, partnerships, hiring.',
-                'The largest DAOs manage billions in treasuries:\n• Uniswap DAO: ~$4B+\n• BitDAO: ~$2B+\n• Compound: $500M+\n\nAll governed by community vote.',
-                'Governance tokens give holders voting rights. But voter apathy is real — most DAOs struggle with low participation. This is an unsolved problem.',
-                'DAO tooling is maturing fast:\n🗳️ Snapshot (offchain voting)\n🏦 Gnosis Safe (multisig treasury)\n💬 Discourse (governance forums)\n⚡ Tally (onchain execution)',
-                'Legal structures for DAOs are emerging. Wyoming, Marshall Islands, and Panama now offer DAO LLC wrappers. Regulation is catching up.',
-                'The future of DAOs: contribution-based reputation systems, AI-powered governance proposals, and cross-chain voting. Still early, still experimental.',
-            ]
-        },
-        blockchain: {
-            tweets: [
-                'A blockchain is a distributed ledger — a database replicated across thousands of computers worldwide. No single point of failure. No single ruler.',
-                'Every block contains:\n📦 Transaction data\n🕐 Timestamp\n🔗 Hash of previous block\n🔑 Its own unique hash\n\nChain them together = blockchain.',
-                'Consensus mechanisms decide who adds the next block:\n⚡ Proof of Work (Bitcoin) — miners compete with computing power\n🌱 Proof of Stake (Ethereum) — validators stake crypto as collateral',
-                'Bitcoin: the original blockchain. ~21M max supply, ~10min block time, pure store of value. The "digital gold" narrative is its clearest use case.',
-                'Ethereum extended the idea: a programmable blockchain. Smart contracts enabled DeFi, NFTs, DAOs — an entire digital economy built on top.',
-                'The blockchain trilemma (Vitalik Buterin): you can only pick 2 of 3:\n🔐 Security\n⚡ Scalability\n🌐 Decentralization\n\nThis drives most design decisions.',
-                'The next frontier: modular blockchains. Separate layers for execution, settlement, and data availability. Celestia, EigenLayer, and Ethereum\'s roadmap are leading this.',
-            ]
-        },
-        wallet: {
-            tweets: [
-                'A crypto wallet doesn\'t "store" your crypto. It stores your private key — the password that proves you own assets on the blockchain.',
-                'Two types of wallets:\n🔗 Custodial — exchange holds your keys (easy, risky)\n🔐 Non-custodial — you hold your keys (harder, safer)\n\n"Not your keys, not your coins."',
-                'Seed phrases = your master password. 12 or 24 random words that can recover your entire wallet.\n\n❌ Never screenshot it\n❌ Never type it online\n✅ Write it on paper, store safely',
-                'Hardware wallets (Ledger, Trezor) are the gold standard. Your private key never touches the internet. Immune to malware and phishing.',
-                'Common attack vectors:\n🎣 Phishing sites\n🪤 Fake wallet apps\n📋 Clipboard hijacking\n🤝 Malicious token approvals\n\nRevoke approvals regularly at revoke.cash.',
-                'Multi-sig wallets require M-of-N signers to authorize a transaction. Perfect for DAOs, teams, and high-value personal wallets. Gnosis Safe is the standard.',
-                'The future: account abstraction (ERC-4337) removes seed phrases. Social recovery, session keys, and gas sponsorship will make wallets feel like real apps.',
-            ]
-        },
-    };
+    // ─── AI Integration ────────────────────────────────────────────────────────
+    
+    // Helper to call the backend AI endpoint
+    async function callAIEndpoint(systemPromptContent) {
+        let authHeaders = {};
+        if (window.ChainMindAuth && window.ChainMindAuth.isLoggedIn()) {
+            authHeaders = window.ChainMindAuth.authHeaders();
+        }
 
-    // ─── Tone modifiers ─────────────────────────────────────────────────────────
-    const TONE_HOOKS = {
-        degen: ['ngl', 'ser', 'gm', 'lfg', 'ngmi if you sleep on this', 'based', 'this is the way', 'probably nothing 👀'],
-        professional: ['According to on-chain data,', 'Research shows that', 'It\'s worth noting that', 'Historically speaking,', 'The data suggests'],
-        beginner: ['In plain English:', 'Think of it like this:', 'Simple version:', 'Breaking this down:', 'No jargon — here\'s what it means:'],
-        witty: ['Plot twist:', 'Hot take:', 'Counterintuitively,', 'The thing nobody tells you:', 'Unpopular opinion:'],
-    };
+        try {
+            const response = await fetch('https://chainmind-video.ugwucollins881.workers.dev/ai/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...authHeaders
+                },
+                body: JSON.stringify({
+                    message: systemPromptContent,
+                    history: []
+                })
+            });
 
-    // ─── Standalone tweet templates ──────────────────────────────────────────────
-    const SINGLE_TWEET_TEMPLATES = [
-        (topic) => `The best time to learn about ${topic} was 5 years ago.\n\nThe second best time is today. 🧠`,
-        (topic) => `People who understand ${topic} have an unfair advantage in the next bull run.\n\nDon't be the one who finds out too late.`,
-        (topic) => `${topic} is one of those things that's hard to understand until suddenly it all clicks.\n\nAnd then you can't believe everyone doesn't get it.`,
-        (topic) => `If you're still confused about ${topic}, that's fine.\n\nMost "experts" are too. Keep learning. 📚`,
-        (topic) => `The most underrated thing about ${topic}:\n\nThe infrastructure being built right now will matter for decades.\n\nWe're early.`,
-        (topic) => `Web3 without understanding ${topic} is like investing without understanding balance sheets.\n\nDo the work.`,
-        (topic) => `${topic} is boring until you realize:\n\n→ It's replacing billion-dollar industries\n→ It's open to everyone\n→ You're early\n\nThen it's the most exciting thing in the world. 🌍`,
-    ];
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to generate response');
+            }
+            return data.reply;
+
+        } catch (err) {
+            console.error('AI API Error:', err);
+            throw err;
+        }
+    }
 
     // ─── DOM elements ────────────────────────────────────────────────────────────
     const topicInput = document.getElementById('tweet-topic');
@@ -216,18 +162,18 @@
             const topic = topicInput ? topicInput.value.trim() : '';
             const hasDocument = window.TweetPremium && window.TweetPremium.getUploadedText();
 
-            // If document uploaded → use premium document analysis
-            if (hasDocument) {
-                generateFromDocument(topic);
+            // Document mode requires PRO
+            if (hasDocument && !window.TweetPremium.Subscription.isActive()) {
+                showToast('PRO subscription required for document analysis.', 'error');
                 return;
             }
 
-            // Standard topic-based generation
-            if (!topic) {
-                showToast('Please enter a topic or upload a document!', 'error');
+            if (!topic && !hasDocument) {
+                showToast('Please enter a clue/topic or upload a document!', 'error');
                 return;
             }
-            generateThread(topic);
+            
+            generateThreadViaAI(topic, hasDocument ? window.TweetPremium.getUploadedText() : null);
         });
     }
 
@@ -272,72 +218,66 @@
     }
 
     // ─── Standard Topic-Based Generation ─────────────────────────────────────────
-    function getTopicTweets(topic) {
-        const lower = topic.toLowerCase();
-        for (const [key, val] of Object.entries(TOPIC_KNOWLEDGE)) {
-            if (lower.includes(key) || lower.includes(key.slice(0, 4))) {
-                return val.tweets;
-            }
-        }
-        // Generic fallback using store glossary
-        const match = window.STORE && window.STORE.glossary
-            ? window.STORE.glossary.find(t => lower.includes(t.term.toLowerCase()))
-            : null;
-        if (match) {
-            return [
-                `${match.term}: ${match.def}`,
-                `A real-world example of ${match.term}: ${match.example}`,
-                `${match.term} is closely related to: ${match.related.join(', ')}`,
-                `Why ${match.term} matters: it's one of the foundational concepts in the ${match.cat} space.`,
-                `The rise of ${match.term} has changed how we think about value, ownership, and trust in the digital age.`,
-                `Common misconceptions about ${match.term}: most people think it's just speculation. In reality, it's infrastructure.`,
-                `Where is ${match.term} headed? Adoption is accelerating. The question isn't if — it's how fast.`,
-            ];
-        }
-        // Final generic fallback
-        return [
-            `${topic} is one of the most important concepts in Web3 right now. Here's why it matters.`,
-            `The core idea behind ${topic}: decentralization, transparency, and trustless execution. These three principles change everything.`,
-            `Most people dismiss ${topic} without understanding what it enables. Let me break that down.`,
-            `${topic} isn't just a buzzword. It's a new primitive for how we coordinate, transact, and build on the internet.`,
-            `Early adopters who understand ${topic} will have a significant edge. The learning curve exists for a reason — most people won't bother.`,
-            `The risks around ${topic} are real, but so is the upside. The key is understanding both before committing capital or time.`,
-            `Where does ${topic} go from here? Adoption is driven by utility. The projects building genuine utility will win long-term.`,
-        ];
-    }
-
-    function applyTone(tweet, tone) {
-        if (tone === 'neutral' || !TONE_HOOKS[tone]) return tweet;
-        const hooks = TONE_HOOKS[tone];
-        // 60% chance to prepend a tone hook (up from 40% for more variety)
-        if (Math.random() < 0.6) {
-            const hook = hooks[Math.floor(Math.random() * hooks.length)];
-            return `${hook} ${tweet}`;
-        }
-        return tweet;
-    }
-
-    function generateThread(topic) {
-        const tone = toneSelect ? toneSelect.value : 'neutral';
-        const tmpl = THREAD_TEMPLATES[selectedTemplate] || THREAD_TEMPLATES.educational;
-        const tweets = shuffleArray(getTopicTweets(topic)); // Shuffle for variety!
+    async function generateThreadViaAI(topic, documentText) {
+        const tone = toneSelect ? toneSelect.options[toneSelect.selectedIndex].text : 'Neutral';
+        const styleSelectText = THREAD_TEMPLATES[selectedTemplate] ? THREAD_TEMPLATES[selectedTemplate].label : 'Educational';
         const numTweets = tweetCountSlider ? parseInt(tweetCountSlider.value) : 8;
+        const btnTextSpan = document.getElementById('generate-btn-text');
+        
+        const originalText = btnTextSpan ? btnTextSpan.textContent : 'Generate Thread';
+        
+        try {
+            if (btnTextSpan) btnTextSpan.textContent = 'Crafting Thread...';
+            generateBtn.disabled = true;
 
-        // Calculate how many content tweets to include
-        const maxContent = Math.max(1, numTweets - 2);
-        const contentTweets = tweets.slice(0, maxContent);
-        const total = contentTweets.length + 2;
+            let prompt = `You are a viral Web3/Crypto ghostwriter on X (Twitter). Your task is to write a highly engaging, structured Twitter thread.
+CRITICAL CONSTRAINTS:
+- Write EXACTLY ${numTweets} tweets.
+- Target Tone: ${tone}
+- Target Style: ${styleSelectText}
+- Each tweet must be under 280 characters.
+- Separate each tweet with the exact string "||TWEET_DIVIDER||". Do not use any other numbering or formatting to separate them.
+- Format the visual tweet thread organically. Use line breaks and emojis where appropriate.
+`;
 
-        currentThread = [
-            tmpl.opener(topic),
-            ...contentTweets.map((tw, i) => `${i + 2}/${total}\n\n${applyTone(tw, tone)}`),
-            tmpl.ender,
-        ];
+            if (documentText) {
+                prompt += `\nBASE THIS THREAD ENTIRELY OFF THE FOLLOWING DOCUMENT TEXT. SUMMARIZE THE CORE INSIGHTS PERFECTLY:\n\n"""\n${documentText.substring(0, 4000)}\n"""\n`;
+            }
 
-        renderThread(currentThread);
-        outputSection.style.display = 'block';
-        outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        showToast('Thread generated! ✨', 'success');
+            if (topic) {
+                prompt += `\nTHE CLUE / TOPIC FOR THIS THREAD IS: "${topic}"\n`;
+            }
+
+            const aiResponse = await callAIEndpoint(prompt);
+            
+            // Parse response
+            let tweets = aiResponse.split('||TWEET_DIVIDER||').map(t => t.trim()).filter(t => t.length > 0);
+            
+            if (tweets.length === 0) {
+                 throw new Error("AI returned empty formatted response.");
+            }
+
+            // Clean up unwanted numbering if the AI ignored instructions
+            tweets = tweets.map(t => t.replace(/^\d+\/\d+\s+/, '').trim());
+
+            currentThread = tweets.map((tw, i) => {
+                const total = tweets.length;
+                let threadPrefix = `${i + 1}/${total}\n\n`;
+                // If it already has a custom intro (like Thread emoji), ensure spacing
+                return threadPrefix + tw;
+            });
+
+            renderThread(currentThread);
+            outputSection.style.display = 'block';
+            outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showToast('Thread generated magically! ✨', 'success');
+
+        } catch (err) {
+            showToast(err.message, 'error');
+        } finally {
+            if (btnTextSpan) btnTextSpan.textContent = originalText;
+            generateBtn.disabled = false;
+        }
     }
 
     function renderThread(tweets) {
@@ -394,34 +334,60 @@
 
     // ─── Generate Single Tweet ───────────────────────────────────────────────────
     if (genSingleBtn) {
-        genSingleBtn.addEventListener('click', () => {
-            const topic = topicInput ? topicInput.value.trim() : 'Web3';
+        genSingleBtn.addEventListener('click', async () => {
+            const topic = topicInput ? topicInput.value.trim() : '';
+            const hasDocument = window.TweetPremium && window.TweetPremium.getUploadedText();
 
-            // If document uploaded + PRO active, generate from document
-            if (window.TweetPremium && window.TweetPremium.getUploadedText() && window.TweetPremium.Subscription.isActive()) {
-                const docText = window.TweetPremium.getUploadedText();
-                const keyPoints = window.TweetPremium.Extractor.extract(docText, 1);
-                if (keyPoints.length > 0) {
-                    let tweet = keyPoints[0];
-                    if (tweet.length > 280) tweet = tweet.substring(0, 277) + '...';
-                    if (singleInput) {
-                        singleInput.value = tweet;
-                        charCounter.textContent = `${tweet.length}/280`;
-                        singleOutput.style.display = 'block';
-                        showToast('Tweet crafted from document! ✨', 'success');
-                    }
-                    return;
-                }
+            // Document mode requires PRO
+            if (hasDocument && !window.TweetPremium.Subscription.isActive()) {
+                showToast('PRO subscription required for document analysis.', 'error');
+                return;
             }
 
-            // Standard single tweet
-            const tmplFn = SINGLE_TWEET_TEMPLATES[Math.floor(Math.random() * SINGLE_TWEET_TEMPLATES.length)];
-            const tweet = tmplFn(topic || 'Web3');
-            if (singleInput) {
-                singleInput.value = tweet;
-                charCounter.textContent = `${tweet.length}/280`;
-                singleOutput.style.display = 'block';
-                showToast('Tweet crafted! ✨', 'success');
+            if (!topic && !hasDocument) {
+                showToast('Please enter a clue/topic or upload a document!', 'error');
+                return;
+            }
+
+            const tone = toneSelect ? toneSelect.options[toneSelect.selectedIndex].text : 'Neutral';
+            const btnTextSpan = document.getElementById('gen-single-btn-text');
+            const originalText = btnTextSpan ? btnTextSpan.textContent : 'Craft Single Tweet';
+
+            try {
+                if (btnTextSpan) btnTextSpan.textContent = 'Crafting...';
+                genSingleBtn.disabled = true;
+
+                let prompt = `You are a viral Web3/Crypto ghostwriter on X (Twitter). Your task is to write a highly engaging, standalone single tweet.
+CRITICAL CONSTRAINTS:
+- Write EXACTLY 1 tweet.
+- Target Tone: ${tone}
+- The tweet MUST be under 280 characters.
+- Do NOT output any conversational filler or pre/post text. JUST the tweet content itself.
+`;
+
+                if (hasDocument) {
+                    prompt += `\nBASE THIS TWEET ENTIRELY OFF THE FOLLOWING DOCUMENT TEXT. SUMMARIZE ONE OF THE MOST ENGAGING INSIGHTS:\n\n"""\n${window.TweetPremium.getUploadedText().substring(0, 4000)}\n"""\n`;
+                }
+
+                if (topic) {
+                    prompt += `\nTHE CLUE / TOPIC FOR THIS TWEET IS: "${topic}"\n`;
+                }
+
+                let tweet = await callAIEndpoint(prompt);
+                tweet = tweet.trim().replace(/^"|"$/g, ''); // strip optional quotes
+
+                if (singleInput) {
+                    singleInput.value = tweet;
+                    charCounter.textContent = `${tweet.length}/280`;
+                    singleOutput.style.display = 'block';
+                    singleOutput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    showToast('Tweet crafted magically! ✨', 'success');
+                }
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                if (btnTextSpan) btnTextSpan.textContent = originalText;
+                genSingleBtn.disabled = false;
             }
         });
     }
