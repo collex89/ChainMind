@@ -790,6 +790,21 @@
                         </select>
                     </div>
 
+                    <!-- X Account Type -->
+                    <div style="margin-bottom:1.25rem">
+                        <label style="display:block;margin-bottom:0.5rem">X Account Type</label>
+                        <div style="display:flex;gap:0.5rem">
+                            <button class="tmpl-btn active" id="x-regular-btn" data-x-type="regular" style="flex:1;padding:0.6rem;font-size:0.82rem">
+                                <span style="font-weight:700">Regular</span>
+                                <span style="font-size:0.7rem;color:var(--text-muted);display:block;margin-top:2px">280 characters</span>
+                            </button>
+                            <button class="tmpl-btn" id="x-premium-btn" data-x-type="premium" style="flex:1;padding:0.6rem;font-size:0.82rem">
+                                <span style="font-weight:700">Premium X</span>
+                                <span style="font-size:0.7rem;color:var(--text-muted);display:block;margin-top:2px">Up to 25,000 chars</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Thread style -->
                     <div style="margin-bottom:1.25rem">
                         <label style="display:block;margin-bottom:0.6rem">Thread Style</label>
@@ -855,7 +870,7 @@
                             Your Tweet <span style="font-size:0.75rem;color:var(--text-muted)">(edit freely)</span>
                         </label>
                         <div class="single-tweet-wrap">
-                            <textarea id="single-tweet-input" rows="4"
+                            <textarea id="single-tweet-input" rows="8"
                                 placeholder="Your tweet will appear here..."></textarea>
                             <div
                                 style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:0.6rem;margin-top:0.4rem">

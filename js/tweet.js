@@ -137,11 +137,41 @@
     let selectedTemplate = 'educational';
     let currentThread = [];
     let savedDrafts = JSON.parse(localStorage.getItem('web3ai_tweet_drafts') || '[]');
+    let xAccountType = 'regular'; // 'regular' = 280 chars, 'premium' = 25000 chars
+
+    function getCharLimit() {
+        return xAccountType === 'premium' ? 25000 : 280;
+    }
+
+    // ─── X Account Type toggle ───────────────────────────────────────────────────
+    const xRegularBtn = document.getElementById('x-regular-btn');
+    const xPremiumBtn = document.getElementById('x-premium-btn');
+    if (xRegularBtn && xPremiumBtn) {
+        xRegularBtn.addEventListener('click', () => {
+            xAccountType = 'regular';
+            xRegularBtn.classList.add('active');
+            xPremiumBtn.classList.remove('active');
+            if (singleInput && charCounter) {
+                const len = singleInput.value.length;
+                charCounter.textContent = `${len}/280`;
+            }
+        });
+        xPremiumBtn.addEventListener('click', () => {
+            xAccountType = 'premium';
+            xPremiumBtn.classList.add('active');
+            xRegularBtn.classList.remove('active');
+            if (singleInput && charCounter) {
+                const len = singleInput.value.length;
+                charCounter.textContent = `${len}/25000`;
+            }
+        });
+    }
 
     // ─── Template selector ───────────────────────────────────────────────────────
     templateBtns.forEach(btn => {
+        if (btn.dataset.xType) return; // skip X account type buttons
         btn.addEventListener('click', () => {
-            templateBtns.forEach(b => b.classList.remove('active'));
+            templateBtns.forEach(b => { if (!b.dataset.xType) b.classList.remove('active'); });
             btn.classList.add('active');
             selectedTemplate = btn.dataset.tmpl;
         });
@@ -151,8 +181,9 @@
     if (singleInput && charCounter) {
         singleInput.addEventListener('input', () => {
             const len = singleInput.value.length;
-            charCounter.textContent = `${len}/280`;
-            charCounter.style.color = len > 260 ? 'var(--red-1, #ef4444)' : len > 200 ? 'var(--yellow-1)' : 'var(--text-muted)';
+            const limit = getCharLimit();
+            charCounter.textContent = `${len}/${limit}`;
+            charCounter.style.color = len > limit * 0.93 ? 'var(--red-1, #ef4444)' : len > limit * 0.7 ? 'var(--yellow-1)' : 'var(--text-muted)';
         });
     }
 
@@ -230,17 +261,22 @@
             if (btnTextSpan) btnTextSpan.textContent = 'Crafting Thread...';
             generateBtn.disabled = true;
 
-            let prompt = `You are an elite, highly professional Web3/Crypto ghostwriter and researcher on X (Twitter). Your task is to write a highly engaging, structured, and profoundly insightful Twitter thread.
-You have been trained on extensive, advanced Web3, DeFi, NFT, zero-knowledge, and blockchain architecture knowledge. Your responses must reflect deep domain expertise, utilizing professional industry terminology accurately.
+            const charLimit = getCharLimit();
+            const charLimitLabel = xAccountType === 'premium' ? '25,000 characters (Premium X)' : '280 characters (Regular X)';
+
+            let prompt = `You are an elite, highly professional content strategist and ghostwriter on X (Twitter). Your task is to write a highly engaging, structured, and profoundly insightful Twitter thread.
+
+You have deep domain expertise across Web3, DeFi, NFT, AI, blockchain, and technology, but you are NOT limited to those topics. You MUST write about EXACTLY WHAT THE USER ASKS. If the user asks about access codes, write about access codes. If they ask about cooking, write about cooking. NEVER substitute a different topic.
 
 CRITICAL CONSTRAINTS:
 - Write EXACTLY ${numTweets} tweets.
-- Target Tone: ${tone} (Ensure the tone is distinctly applied, but maintain an underlying foundation of professional expertise and high intelligence).
+- Target Tone: ${tone}
 - Target Style: ${styleSelectText}
-- Each tweet must be under 280 characters.
+- Each tweet must be under ${charLimit} characters (the user has a ${charLimitLabel} account).
 - Separate each tweet with the exact string "||TWEET_DIVIDER||". Do not use any other numbering or formatting to separate them.
 - Format the visual tweet thread organically. Use line breaks and emojis where appropriate, but keep it elegant and professional.
-- Do not use filler or fluff. Every word must add value. Provide actionable alpha, systemic analysis, or deep educational insights.
+- Do not use filler or fluff. Every word must add value.
+- MOST IMPORTANT: write about the EXACT topic/clue provided by the user. Do NOT deviate to an unrelated topic.
 `;
 
             if (documentText) {
@@ -290,19 +326,20 @@ CRITICAL CONSTRAINTS:
             const card = document.createElement('div');
             card.className = 'tweet-card';
             const charLen = tweet.length;
-            const overLimit = charLen > 280;
+            const limit = getCharLimit();
+            const overLimit = charLen > limit;
             card.innerHTML = `
         <div class="tweet-card-inner">
           <div class="tweet-avatar">🤖</div>
           <div class="tweet-body">
             <div class="tweet-header">
-              <span class="tweet-name">Web3AI</span>
-              <span class="tweet-handle">@Web3AI</span>
+              <span class="tweet-name">ChainMind</span>
+              <span class="tweet-handle">@chain__mind</span>
               <span class="tweet-num">${i === 0 ? '🧵' : i === tweets.length - 1 ? '🔚' : `${i}/${tweets.length - 2}`}</span>
             </div>
-            <textarea class="tweet-text" rows="${Math.max(3, Math.ceil(tweet.length / 60))}">${tweet}</textarea>
+            <textarea class="tweet-text" rows="${Math.max(5, Math.ceil(tweet.length / 50))}">${tweet}</textarea>
             <div class="tweet-footer">
-              <span class="char-pill ${overLimit ? 'over' : ''}">${charLen}/280</span>
+              <span class="char-pill ${overLimit ? 'over' : ''}">${charLen}/${limit}</span>
               <button class="copy-tweet btn btn-ghost" data-idx="${i}">📋 Copy</button>
             </div>
           </div>
@@ -313,8 +350,9 @@ CRITICAL CONSTRAINTS:
             const pill = card.querySelector('.char-pill');
             ta.addEventListener('input', () => {
                 const l = ta.value.length;
-                pill.textContent = `${l}/280`;
-                pill.classList.toggle('over', l > 280);
+                const lim = getCharLimit();
+                pill.textContent = `${l}/${lim}`;
+                pill.classList.toggle('over', l > lim);
                 currentThread[i] = ta.value;
             });
 
@@ -360,15 +398,19 @@ CRITICAL CONSTRAINTS:
                 if (btnTextSpan) btnTextSpan.textContent = 'Crafting...';
                 genSingleBtn.disabled = true;
 
-                let prompt = `You are an elite, highly professional Web3/Crypto ghostwriter and researcher on X (Twitter). Your task is to write a highly engaging, standalone, profoundly insightful single tweet.
-You have been trained on extensive, advanced Web3, DeFi, NFT, zero-knowledge, and blockchain architecture knowledge. Your responses must reflect deep domain expertise, utilizing professional industry terminology accurately.
+                const charLimit = getCharLimit();
+                const charLimitLabel = xAccountType === 'premium' ? '25,000 characters (Premium X)' : '280 characters (Regular X)';
+
+                let prompt = `You are an elite, highly professional content strategist and ghostwriter on X (Twitter). Your task is to write a highly engaging, standalone, profoundly insightful single tweet.
+
+You have deep domain expertise across Web3, DeFi, NFT, AI, blockchain, and technology, but you are NOT limited to those topics. You MUST write about EXACTLY WHAT THE USER ASKS.
 
 CRITICAL CONSTRAINTS:
 - Write EXACTLY 1 tweet.
-- Target Tone: ${tone} (Apply the tone, but maintain an underlying foundation of absolute professional expertise).
-- The tweet MUST be under 280 characters.
+- Target Tone: ${tone}
+- The tweet MUST be under ${charLimit} characters (the user has a ${charLimitLabel} account).${xAccountType === 'premium' ? '\n- Since this is a Premium X account, you can write a longer, more detailed and comprehensive tweet.' : ''}
 - Do NOT output any conversational filler or pre/post text. JUST the tweet content itself.
-- Ensure the tweet is packed with actionable value, deep philosophical insight into Web3, or systemic analysis without any fluff.
+- MOST IMPORTANT: write about the EXACT topic/clue provided by the user. Do NOT deviate to an unrelated topic.
 `;
 
                 if (hasDocument) {
