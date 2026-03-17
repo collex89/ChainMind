@@ -715,7 +715,7 @@
             }
             return data.reply || data.error || 'I couldn\'t generate a response. Please try again.';
         } catch (err) {
-            console.error('[ChainMind AI] Error:', err);
+            console.error('[NexuBrain AI] Error:', err);
             return 'I\'m having trouble connecting to the AI service. Please try again in a moment.';
         }
     }
@@ -751,7 +751,7 @@
             typing.remove();
             const formattedReply = `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
                 <span style="font-size:1.2rem">✨</span>
-                <strong style="color:var(--cyan-1);font-size:0.85rem">Powered by ChainMind AI</strong>
+                <strong style="color:var(--cyan-1);font-size:0.85rem">Powered by NexuBrain AI</strong>
             </div>` + markdownToHtml(aiReply);
             appendMessage(formattedReply, 'ai');
             conversationHistory.push({ role: 'assistant', content: aiReply });

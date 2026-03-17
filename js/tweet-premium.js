@@ -86,13 +86,13 @@
                 });
                 const data = await resp.json();
                 if (!data.valid) {
-                    console.warn('[ChainMind] Token invalid:', data.error);
+                    console.warn('[NexuBrain] Token invalid:', data.error);
                     this.deactivate();
                     return false;
                 }
                 return true;
             } catch (err) {
-                console.warn('[ChainMind] Token validation failed (network):', err.message);
+                console.warn('[NexuBrain] Token validation failed (network):', err.message);
                 // On network error, trust local expiry check
                 return this.isActive();
             }
@@ -494,7 +494,7 @@
                     const reference = await payWithCard();
 
                     subscribeBtn.innerHTML = '✅ Subscription active!';
-                    if (window.showToast) showToast('Welcome to ChainMind PRO! Payment confirmed 🎉', 'success');
+                    if (window.showToast) showToast('Welcome to NexuBrain PRO! Payment confirmed 🎉', 'success');
 
                     // Hide overlay with animation
                     setTimeout(() => {
@@ -561,7 +561,7 @@
             // Async server-side validation (catches tampered tokens)
             Subscription.validateWithServer().then(valid => {
                 if (!valid) {
-                    console.warn('[ChainMind] Server rejected token — showing paywall');
+                    console.warn('[NexuBrain] Server rejected token — showing paywall');
                     overlay.style.display = 'flex';
                     if (proStatus) proStatus.style.display = 'none';
                 }

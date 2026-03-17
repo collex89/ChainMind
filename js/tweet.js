@@ -119,33 +119,33 @@
         }
     }
 
-    // ─── ChainMind Self-Knowledge (injected into every AI prompt) ────────────────
-    const CHAINMIND_CONTEXT = `
-ABOUT CHAINMIND (YOU MUST USE THIS KNOWLEDGE WHEN THE USER ASKS ABOUT CHAINMIND):
-ChainMind is a Web3 Intelligence Platform — the smartest way to master Web3. It is an all-in-one AI-powered platform built for the crypto and Web3 community. Its X (Twitter) handle is @chain__mind.
+    // ─── NexuBrain Self-Knowledge (injected into every AI prompt) ────────────────
+    const NEXUBRAIN_CONTEXT = `
+ABOUT NEXUBRAIN (YOU MUST USE THIS KNOWLEDGE WHEN THE USER ASKS ABOUT NEXUBRAIN):
+NexuBrain is a Web3 Intelligence Platform — the smartest way to master Web3. It is an all-in-one AI-powered platform built for the crypto and Web3 community. Its X (Twitter) handle is @NexuBrain.
 
 KEY FEATURES:
 1. **AI Research Hub** — AI-powered research chat that gives precise, nuanced answers about DeFi, NFTs, consensus mechanisms, smart contracts, and more. Users can ask any Web3 question and get instant, professional responses.
 2. **Web3 Glossary (Learn)** — A comprehensive Web3 glossary with terms, definitions, examples, and related concepts across categories like DeFi, NFT, blockchain, Layer 2, DAOs, etc.
-3. **Train AI** — A community-driven feature where users submit knowledge entries (terms, definitions, key points) to train and improve ChainMind's AI. Contributors are tracked on a live leaderboard.
+3. **Train AI** — A community-driven feature where users submit knowledge entries (terms, definitions, key points) to train and improve NexuBrain's AI. Contributors are tracked on a live leaderboard.
 4. **Web3 Jobs Board** — A curated listing of Web3/crypto jobs from across the industry.
 5. **Thread Writer (PRO)** — An AI-powered tool that crafts professional Twitter/X threads and single tweets based on user clues/topics or uploaded documents. Supports Regular X (280 chars) and Premium X (25,000 chars). Users can select tone (Professional, Degen, Beginner, Witty, Neutral) and style (Educational, Alpha Drop, Hot Take, How-To, News, Doc Analysis).
 6. **AI Video Generator (PRO)** — Generate AI videos from text prompts using advanced AI models.
 7. **Feedback System** — Users can submit feedback, feature requests, and bug reports.
 
 ABOUT ACCESS KEYS / ACCESS CODES:
-- An **access key** (also called access code) is a special code that grants users instant PRO access to ChainMind without paying. It bypasses the subscription paywall entirely.
-- Access keys are typically distributed during giveaways, promotions, partnerships, or to early supporters on X (@chain__mind).
+- An **access key** (also called access code) is a special code that grants users instant PRO access to NexuBrain without paying. It bypasses the subscription paywall entirely.
+- Access keys are typically distributed during giveaways, promotions, partnerships, or to early supporters on X (@NexuBrain).
 - When a user redeems an access code, their account is upgraded to PRO permanently (no expiry), unlike the paid subscription which lasts 30 days.
 - To redeem: users click "Have an access code?" on the PRO paywall, enter their code, and their account is instantly upgraded.
 
 ABOUT THE PRO PLAN:
-- ChainMind PRO costs approximately $5/month (paid via Paystack).
+- NexuBrain PRO costs approximately $5/month (paid via Paystack).
 - PRO unlocks: Thread Writer (AI-powered tweet/thread generation), Video Generator, Document Analysis, longer thread customization, and all premium features.
 - Users can also get PRO via access codes (free, permanent) or restore a previous subscription by email.
 
 ABOUT THE PLATFORM IDENTITY:
-- ChainMind is community-driven — the AI gets smarter as the community trains it.
+- NexuBrain is community-driven — the AI gets smarter as the community trains it.
 - It is designed for both beginners and advanced Web3 users.
 - The platform is built on Cloudflare Workers, uses Groq AI for chat, and Replicate for video generation.
 `;
@@ -318,8 +318,8 @@ CRITICAL CONSTRAINTS:
                 prompt += `\nTHE CLUE / TOPIC FOR THIS THREAD IS: "${topic}"\n`;
             }
 
-            // Inject ChainMind self-knowledge
-            prompt += CHAINMIND_CONTEXT;
+            // Inject NexuBrain self-knowledge
+            prompt += NEXUBRAIN_CONTEXT;
 
             const aiResponse = await callAIEndpoint(prompt);
             
@@ -367,8 +367,8 @@ CRITICAL CONSTRAINTS:
           <div class="tweet-avatar">🤖</div>
           <div class="tweet-body">
             <div class="tweet-header">
-              <span class="tweet-name">ChainMind</span>
-              <span class="tweet-handle">@chain__mind</span>
+              <span class="tweet-name">NexuBrain</span>
+              <span class="tweet-handle">@NexuBrain</span>
               <span class="tweet-num">${i === 0 ? '🧵' : i === tweets.length - 1 ? '🔚' : `${i}/${tweets.length - 2}`}</span>
             </div>
             <textarea class="tweet-text" rows="${Math.max(5, Math.ceil(tweet.length / 50))}">${tweet}</textarea>
@@ -455,8 +455,8 @@ CRITICAL CONSTRAINTS:
                     prompt += `\nTHE CLUE / TOPIC FOR THIS TWEET IS: "${topic}"\n`;
                 }
 
-                // Inject ChainMind self-knowledge
-                prompt += CHAINMIND_CONTEXT;
+                // Inject NexuBrain self-knowledge
+                prompt += NEXUBRAIN_CONTEXT;
 
                 let tweet = await callAIEndpoint(prompt);
                 tweet = tweet.trim().replace(/^"|"$/g, ''); // strip optional quotes

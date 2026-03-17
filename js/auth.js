@@ -1,4 +1,4 @@
-// ─── ChainMind Auth Module ───────────────────────────────────────────────────
+// ─── NexuBrain Auth Module ───────────────────────────────────────────────────
 // Handles: User signup, login, session management, and auth UI (modal + navbar)
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -112,8 +112,8 @@
             <div class="auth-card">
                 <div class="auth-header">
                     <div class="auth-logo">
-                        <img src="assets/chainmind_logo.png" alt="ChainMind" style="width:36px;height:36px;border-radius:10px">
-                        <span>ChainMind</span>
+                        <img src="assets/nexubrain_logo.png" alt="NexuBrain" style="width:36px;height:36px;border-radius:10px">
+                        <span>NexuBrain</span>
                     </div>
                     <p class="auth-subtitle">Sign in to save your progress and unlock all features</p>
                 </div>
@@ -232,7 +232,7 @@
                 setTimeout(() => {
                     modal.style.display = 'none';
                     updateNavbar();
-                    if (window.showToast) showToast('Account created! Welcome to ChainMind 🎉', 'success');
+                    if (window.showToast) showToast('Account created! Welcome to NexuBrain 🎉', 'success');
                 }, 300);
             } catch (err) {
                 errEl.textContent = err.message;
@@ -276,7 +276,7 @@
 
             userEl.querySelector('.nav-logout-btn').addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (confirm('Log out of ChainMind?')) Auth.logout();
+                if (confirm('Log out of NexuBrain?')) Auth.logout();
             });
         }
     }

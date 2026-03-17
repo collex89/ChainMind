@@ -243,7 +243,7 @@
             await new Promise(r => setTimeout(r, 3000));
             const resp = await fetch(`${WORKER_URL}/status/${predictionId}`);
             const data = await resp.json();
-            console.log(`[ChainMind Video] Poll ${i + 1}/${maxAttempts}: ${data.status}`);
+            console.log(`[NexuBrain Video] Poll ${i + 1}/${maxAttempts}: ${data.status}`);
 
             if (data.status === 'succeeded') {
                 // Replicate output can be a string URL or an array of URLs
@@ -338,7 +338,7 @@
                         const blobUrl = URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = blobUrl;
-                        a.download = 'chainmind_video.mp4';
+                        a.download = 'nexubrain_video.mp4';
                         document.body.appendChild(a);
                         a.click();
                         document.body.removeChild(a);
@@ -386,7 +386,7 @@
             // Trigger card payment flow
             if (window.TweetPremium && window.TweetPremium.payWithCard) {
                 window.TweetPremium.payWithCard().then(() => {
-                    showToast('ChainMind PRO activated! 🎉', 'success');
+                    showToast('NexuBrain PRO activated! 🎉', 'success');
                     setTimeout(() => location.reload(), 1500);
                 }).catch(err => {
                     showToast(err.message || 'Payment failed.', 'error');

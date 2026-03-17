@@ -133,7 +133,7 @@
                 submissions.unshift(newEntry);
                 form.reset();
                 renderFeed();
-                showToast('✨ Your contribution has been saved to ChainMind!', 'success');
+                showToast('✨ Your contribution has been saved to NexuBrain!', 'success');
                 if (submitCount) submitCount.textContent = submissions.length;
 
                 // Refresh leaderboard dynamically
