@@ -2,7 +2,7 @@
 //
 // HOW TO USE:
 // 1. Create a Google Sheet with these columns (Row 1 = headers, exact names):
-//    title | company | logo | location | type | stack | tags | salary | posted
+//    title | company | logo | location | type | stack | tags | salary | posted | link
 //
 //    • stack and tags are comma-separated, e.g. "Solidity, Hardhat, TypeScript"
 //    • logo should be an emoji, e.g. "🦄"
@@ -83,6 +83,7 @@
         const iTags = idx('tags');
         const iSalary = idx('salary');
         const iPosted = idx('posted');
+        const iLink = idx('link');
 
         if (iTitle === -1 || iCompany === -1) {
             console.warn('[SheetsLoader] Missing required columns: title, company');
@@ -105,6 +106,7 @@
                 tags: (iTags !== -1 && row[iTags]) ? row[iTags].split(',').map(s => s.trim()).filter(Boolean) : [],
                 salary: (iSalary !== -1 ? row[iSalary] : '') || 'Competitive',
                 posted: (iPosted !== -1 ? row[iPosted] : '') || 'Recently',
+                link: (iLink !== -1 && row[iLink] ? row[iLink] : '') || '#',
             });
         }
         return jobs;

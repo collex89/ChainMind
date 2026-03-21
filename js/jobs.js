@@ -122,7 +122,7 @@
           <span class="salary">${job.salary}</span>
           <div style="display:flex;gap:0.5rem">
             <button class="save-btn${isSaved ? ' saved' : ''}" data-id="${job.id}" title="Save job">${isSaved ? '★' : '☆'}</button>
-            <button class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.82rem">Apply →</button>
+            <a href="${job.link || '#'}" target="_blank" class="btn btn-primary" style="padding:0.4rem 1rem;font-size:0.82rem;text-decoration:none">Apply →</a>
           </div>
         </div>`;
 
