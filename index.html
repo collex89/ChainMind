@@ -198,6 +198,12 @@
             to { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
         }
 
+        .social-btn {
+            padding: 0.6rem 1.2rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; color: #475569; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; width: 100%; box-sizing: border-box;
+        }
+        .social-btn:hover { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+
         @media (max-width: 1024px) {
             .bento-grid { grid-template-columns: repeat(2, 1fr); }
             .bento-large { grid-column: span 2; }
@@ -355,6 +361,38 @@
                 <div class="bento-visual" style="background: #f8fafc; overflow: hidden; justify-content: center; gap: 1rem">
                     <div style="padding: 0.8rem 1.5rem; background: white; border-radius: 8px; border: 1px solid #e2e8f0; font-weight: 600; display:flex; align-items:center; gap:0.5rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Thread Writer</div>
                     <div style="padding: 0.8rem 1.5rem; background: white; border-radius: 8px; border: 1px solid #e2e8f0; font-weight: 600; display:flex; align-items:center; gap:0.5rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> Video Generator</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section" id="team" style="padding: 6rem 5%; background: #ffffff;">
+        <div class="bento-header" style="margin-bottom: 3rem;">
+            <div style="display: inline-block; padding: 0.4rem 1rem; background: rgba(99, 102, 241, 0.1); color: #6366f1; border-radius: 99px; font-weight: 700; font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 0.05em; text-transform: uppercase;">Team</div>
+            <h2>Meet the Builder</h2>
+        </div>
+        
+        <div style="display: flex; justify-content: center;">
+            <div class="bento-card" style="max-width: 380px; width: 100%; text-align: center; align-items: center; padding: 3rem 2.5rem; background: #f8fafc;">
+                <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #0891b2); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);">
+                    C
+                </div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 0.25rem; color: #0f172a;">Collins</h3>
+                <p style="color: #6366f1; font-weight: 600; font-size: 1rem; margin-bottom: 2rem;">Founder &amp; Developer</p>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+                    <a href="https://x.com/collex89" target="_blank" class="social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> 
+                        @collex89
+                    </a>
+                    <a href="https://t.me/collex89" target="_blank" class="social-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg> 
+                        Telegram
+                    </a>
+                    <div class="social-btn" style="cursor: default; background: #f1f5f9; box-shadow: none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 
+                        Discord: @collex89
+                    </div>
                 </div>
             </div>
         </div>

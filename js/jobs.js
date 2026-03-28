@@ -103,7 +103,7 @@
             card.className = 'card job-card';
             card.innerHTML = `
         <div class="job-card-top">
-          <div class="job-logo">${job.logo}</div>
+          <div class="job-logo">${job.logo.startsWith('http') ? `<img src="${job.logo}" alt="Logo" style="width:100%;height:100%;object-fit:cover;">` : job.logo}</div>
           <div>
             <h3>${job.title}</h3>
             <div class="job-company">${job.company}</div>
