@@ -19,68 +19,68 @@
 
     const THREAD_TEMPLATES = {
         educational: {
-            label: '🎓 Educational',
+            label: 'Educational',
             opener: (topic) => randomFrom([
-                `🧵 THREAD: Everything you need to know about ${topic} (and why it matters)\n\n👇`,
-                `🧵 ${topic} explained from scratch — a thread you'll want to bookmark.\n\n👇`,
-                `🧵 Let me teach you ${topic} in under 5 minutes.\n\nNo jargon. No fluff. Just clarity. 👇`,
+                `THREAD: Everything you need to know about ${topic} (and why it matters)\n\n`,
+                `${topic} explained from scratch — a thread you'll want to bookmark.\n\n`,
+                `Let me teach you ${topic} in under 5 minutes.\n\nNo jargon. No fluff. Just clarity. `,
             ]),
             ender: randomFrom([
-                '🔁 RT this if it helped!\n\nFollow for more Web3 alpha daily. I break down the hardest concepts in plain English.',
-                'Found this useful? 🔁 Retweet so others can learn too.\n\nFollow for daily Web3 breakdowns.',
-                'That\'s the crash course. Bookmark this for later.\n\n🔁 RT + Follow for more threads like this.',
+                'RT this if it helped!\n\nFollow for more Web3 alpha daily. I break down the hardest concepts in plain English.',
+                'Found this useful? Retweet so others can learn too.\n\nFollow for daily Web3 breakdowns.',
+                'That\'s the crash course. Bookmark this for later.\n\nRT + Follow for more threads like this.',
             ]),
         },
         alpha: {
-            label: '⚡ Alpha Drop',
+            label: 'Alpha Drop',
             opener: (topic) => randomFrom([
-                `🚨 ALPHA THREAD: ${topic}\n\nMost people have no idea this exists. Let me explain... 🧵`,
-                `🚨 This is alpha you won't find on CT: ${topic}\n\nThread 🧵👇`,
-                `🚨 ${topic} — the alpha leak nobody's talking about.\n\nPay attention. 🧵`,
+                `ALPHA THREAD: ${topic}\n\nMost people have no idea this exists. Let me explain... `,
+                `This is alpha you won't find on CT: ${topic}\n\nThread `,
+                `${topic} — the alpha leak nobody's talking about.\n\nPay attention. `,
             ]),
             ender: randomFrom([
-                '💎 That\'s the alpha. Now you know.\n\nLike + RT if this was valuable. Follow for more Web3 edge.',
-                '💎 Alpha delivered. Don\'t sleep on this.\n\nRT to share. Follow for more early intel.',
-                '💎 Now you\'re ahead of 99% of CT.\n\nLike + Retweet + Follow for more alpha.',
+                'That\'s the alpha. Now you know.\n\nLike + RT if this was valuable. Follow for more Web3 edge.',
+                'Alpha delivered. Don\'t sleep on this.\n\nRT to share. Follow for more early intel.',
+                'Now you\'re ahead of 99% of CT.\n\nLike + Retweet + Follow for more alpha.',
             ]),
         },
         opinion: {
-            label: '💬 Hot Take',
+            label: 'Hot Take',
             opener: (topic) => randomFrom([
-                `Hot take about ${topic} that most people won't want to hear:\n\n🧵 A thread.`,
-                `Unpopular opinion about ${topic}:\n\nMost of you will disagree. That's fine. 🧵`,
-                `I have a controversial take on ${topic}.\n\nHear me out before you ratio me. 🧵`,
+                `Hot take about ${topic} that most people won't want to hear:\n\n A thread.`,
+                `Unpopular opinion about ${topic}:\n\nMost of you will disagree. That's fine. `,
+                `I have a controversial take on ${topic}.\n\nHear me out before you ratio me. `,
             ]),
             ender: randomFrom([
-                'Controversial? Maybe. But this is my honest take after studying Web3 for years.\n\nAgree or disagree? Reply below 👇',
-                'You can disagree, but the data backs this up.\n\nDrop your take below 👇',
-                'That\'s my unfiltered take. Zero sugarcoating.\n\nReply with yours 👇',
+                'Controversial? Maybe. But this is my honest take after studying Web3 for years.\n\nAgree or disagree? Reply below ',
+                'You can disagree, but the data backs this up.\n\nDrop your take below ',
+                'That\'s my unfiltered take. Zero sugarcoating.\n\nReply with yours ',
             ]),
         },
         howto: {
-            label: '🛠 How-To Guide',
+            label: 'How-To Guide',
             opener: (topic) => randomFrom([
-                `How to understand ${topic} in under 5 minutes:\n\n(A practical thread for everyone — beginner to degen) 🧵`,
-                `Step-by-step: mastering ${topic}\n\nEven if you're a complete beginner. 🧵👇`,
-                `The simplest guide to ${topic} you'll ever read.\n\nBookmark this. 🧵`,
+                `How to understand ${topic} in under 5 minutes:\n\n(A practical thread for everyone — beginner to degen) `,
+                `Step-by-step: mastering ${topic}\n\nEven if you're a complete beginner. `,
+                `The simplest guide to ${topic} you'll ever read.\n\nBookmark this. `,
             ]),
             ender: randomFrom([
-                '✅ You now understand the basics. Bookmark this for later.\n\nFollow me for more Web3 explainers like this.',
-                '✅ Guide complete. You\'re already ahead of most.\n\nRT + Follow for more practical threads.',
-                '✅ That\'s how it works. Simple when you break it down.\n\nBookmark + Follow for more guides.',
+                'You now understand the basics. Bookmark this for later.\n\nFollow me for more Web3 explainers like this.',
+                'Guide complete. You\'re already ahead of most.\n\nRT + Follow for more practical threads.',
+                'That\'s how it works. Simple when you break it down.\n\nBookmark + Follow for more guides.',
             ]),
         },
         news: {
-            label: '📰 News Breakdown',
+            label: 'News Breakdown',
             opener: (topic) => randomFrom([
-                `Breaking down the latest on ${topic}:\n\nWhat it means, why it matters, what to watch next 🧵`,
-                `📰 ${topic} — here's what just happened and why you should care.\n\nThread 🧵`,
-                `Big news about ${topic} just dropped.\n\nLet me break it down for you. 🧵👇`,
+                `Breaking down the latest on ${topic}:\n\nWhat it means, why it matters, what to watch next `,
+                `${topic} — here's what just happened and why you should care.\n\nThread `,
+                `Big news about ${topic} just dropped.\n\nLet me break it down for you. `,
             ]),
             ender: randomFrom([
-                '📌 Stay updated. This space moves fast.\n\nRT to share. Follow for real-time Web3 commentary.',
-                '📌 This story is still developing. Follow me for updates as they drop.',
-                '📌 Don\'t miss the next big move. RT + Follow for live Web3 coverage.',
+                'Stay updated. This space moves fast.\n\nRT to share. Follow for real-time Web3 commentary.',
+                'This story is still developing. Follow me for updates as they drop.',
+                'Don\'t miss the next big move. RT + Follow for live Web3 coverage.',
             ]),
         },
     };
@@ -295,19 +295,24 @@ ABOUT THE PLATFORM IDENTITY:
             const charLimit = getCharLimit();
             const charLimitLabel = xAccountType === 'premium' ? '25,000 characters (Premium X)' : '280 characters (Regular X)';
 
-            let prompt = `You are an elite, highly professional content strategist and ghostwriter on X (Twitter). Your task is to write a highly engaging, structured, and profoundly insightful Twitter thread.
+            let prompt = `You are a world-class Web3 ghostwriter and top 1% X (Twitter) creator known for high-converting, viral threads that blend deep insight with effortless readability. Your writing never sounds like AI; it sounds like an industry veteran speaking candidly over coffee.
 
-You have deep domain expertise across Web3, DeFi, NFT, AI, blockchain, and technology, but you are NOT limited to those topics. You MUST write about EXACTLY WHAT THE USER ASKS. If the user asks about access codes, write about access codes. If they ask about cooking, write about cooking. NEVER substitute a different topic.
+YOUR TASK: Write a highly engaging, structured, and profoundly insightful Twitter thread exactly about what the user asks.
 
 CRITICAL CONSTRAINTS:
-- Write EXACTLY ${numTweets} tweets.
-- Target Tone: ${tone}
-- Target Style: ${styleSelectText}
-- Each tweet must be under ${charLimit} characters (the user has a ${charLimitLabel} account).
-- Separate each tweet with the exact string "||TWEET_DIVIDER||". Do not use any other numbering or formatting to separate them.
-- Format the visual tweet thread organically. Use line breaks and emojis where appropriate, but keep it elegant and professional.
-- Do not use filler or fluff. Every word must add value.
-- MOST IMPORTANT: write about the EXACT topic/clue provided by the user. Do NOT deviate to an unrelated topic.
+1. OUTPUT EXACTLY ${numTweets} TWEETS.
+2. Tone: ${tone}. Style: ${styleSelectText}.
+3. Length limit per tweet: ${charLimit} characters (${charLimitLabel}).
+4. Formatting: Separate each tweet with exactly "||TWEET_DIVIDER||" and absolutely nothing else.
+5. NO EMOJIS EVER. Do not use a single emoji under any circumstance.
+6. NO AI-ISMS: Never use words like "delve", "tapestry", "unleash", "elevate", "crucial", "testament", "fast-paced world", or "game-changer". Never end a tweet with a rhetorical question unless absolutely necessary.
+7. WRITING STYLE:
+   - Use punchy, short sentences. Vary sentence length for rhythm.
+   - Kill all adjectives and adverbs that do not add concrete value.
+   - Start the thread with a sharp hook. Do NOT say "Let's dive in" or "Here is a thread."
+   - End with a strong wrap-up, but keep it natural. 
+   - The tone must be strikingly humanized, conversational, and direct.
+8. FOCUS: Write about the EXACT topic/clue provided. Never hallucinate entirely unrelated concepts.
 `;
 
             if (documentText) {
@@ -435,16 +440,22 @@ CRITICAL CONSTRAINTS:
                 const charLimit = getCharLimit();
                 const charLimitLabel = xAccountType === 'premium' ? '25,000 characters (Premium X)' : '280 characters (Regular X)';
 
-                let prompt = `You are an elite, highly professional content strategist and ghostwriter on X (Twitter). Your task is to write a highly engaging, standalone, profoundly insightful single tweet.
+                let prompt = `You are a world-class Web3 ghostwriter and top 1% X (Twitter) creator known for high-converting, punchy, and highly insightful standalone tweets. Your writing never sounds like AI; it sounds like an industry veteran speaking candidly.
 
-You have deep domain expertise across Web3, DeFi, NFT, AI, blockchain, and technology, but you are NOT limited to those topics. You MUST write about EXACTLY WHAT THE USER ASKS.
+YOUR TASK: Write EXACTLY 1 highly engaging standalone tweet about the exact topic provided.
 
 CRITICAL CONSTRAINTS:
-- Write EXACTLY 1 tweet.
-- Target Tone: ${tone}
-- The tweet MUST be under ${charLimit} characters (the user has a ${charLimitLabel} account).${xAccountType === 'premium' ? '\n- Since this is a Premium X account, you can write a longer, more detailed and comprehensive tweet.' : ''}
-- Do NOT output any conversational filler or pre/post text. JUST the tweet content itself.
-- MOST IMPORTANT: write about the EXACT topic/clue provided by the user. Do NOT deviate to an unrelated topic.
+1. Tone: ${tone}.
+2. Length limit: ${charLimit} characters (${charLimitLabel}).${xAccountType === 'premium' ? '\n- This is a Premium X account; use the space for deep substance and excellent formatting.' : ''}
+3. NO EMOJIS EVER.
+4. NO AI-ISMS: Never use words like "delve", "tapestry", "unleash", "elevate", "crucial", "testament", "fast-paced world".
+5. WRITING STYLE:
+   - Make it punchy, insightful, and sharply constructed.
+   - Use formatting (like line breaks) intelligently to maintain visual rhythm.
+   - Kill filler words. Every word must fight for its place.
+   - The tone must be strictly conversational, raw, and humanized.
+6. OUTPUT: Return ONLY the tweet text. No intro text, no conversational filler like "Here is your tweet:". 
+7. FOCUS: Write about the EXACT topic/clue provided. Do not deviate.
 `;
 
                 if (hasDocument) {

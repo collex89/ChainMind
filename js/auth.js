@@ -129,7 +129,10 @@
                         <input type="email" id="auth-login-email" class="input" placeholder="you@example.com" required>
                     </div>
                     <div class="auth-field">
-                        <label for="auth-login-password">Password</label>
+                        <label style="display: flex; justify-content: space-between;" for="auth-login-password">
+                            <span>Password</span>
+                            <a href="#" id="auth-forgot-password" style="font-size: 0.75rem; color: #6366f1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#6366f1'">Forgot?</a>
+                        </label>
                         <input type="password" id="auth-login-password" class="input" placeholder="Your password" required>
                     </div>
                     <button type="submit" class="btn btn-primary auth-submit">Log In →</button>
@@ -212,6 +215,39 @@
                 btn.textContent = 'Log In →';
             }
         });
+
+        // Forgot password
+        const forgotLink = modal.querySelector('#auth-forgot-password');
+        if (forgotLink) {
+            forgotLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const email = prompt('Enter your registered email address to receive a password reset link:');
+                if (!email) return;
+
+                const btn = loginForm.querySelector('.auth-submit');
+                const errEl = modal.querySelector('#auth-login-error');
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = '⏳ Sending reset link...';
+                errEl.textContent = '';
+
+                try {
+                    const resp = await fetch(`https://chainmind-video.ugwucollins881.workers.dev/auth/reset-password`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email.trim() }),
+                    });
+                    const data = await resp.json();
+                    if (!resp.ok) throw new Error(data.error || 'Failed to send reset link.');
+                    if (window.showToast) showToast('Password reset link sent to your email!', 'success');
+                } catch (err) {
+                    errEl.textContent = err.message;
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            });
+        }
 
         // Signup form
         signupForm.addEventListener('submit', async (e) => {
