@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password | NexuBrain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> <!-- Make sure this points to your global style -->
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #0f172a;
+        }
+        .reset-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.05);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        .logo-area img {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+        }
+        .title {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+        .auth-field {
+            margin-bottom: 1.25rem;
+        }
+        .auth-field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            color: #475569;
+        }
+        .input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+        .input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+        }
+        .btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .message {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 6px;
+            display: none;
+        }
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #6366f1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reset-card">
+        <div class="logo-area">
+            <img src="assets/nexubrain_logo.png" alt="NexuBrain" onerror="this.style.display='none'">
+            <span>NexuBrain</span>
+        </div>
+        
+        <div id="setup-view">
+            <div class="title">Create new password</div>
+            <div class="subtitle">Your new password must be at least 6 characters.</div>
+
+            <form id="reset-form">
+                <div class="auth-field">
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" class="input" placeholder="Enter new password" required minlength="6">
+                </div>
+                <button type="submit" id="submit-btn" class="btn">Reset Password</button>
+            </form>
+        </div>
+
+        <div id="message-container" class="message"></div>
+        <a href="index.html" class="back-link">Return to Log In</a>
+    </div>
+
+    <script>
+        const WORKER_URL = 'https://chainmind-video.ugwucollins881.workers.dev';
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const setupView = document.getElementById('setup-view');
+        const messageBox = document.getElementById('message-container');
+        const resetForm = document.getElementById('reset-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        if (!token) {
+            setupView.style.display = 'none';
+            messageBox.textContent = 'Invalid or missing password reset token. Please request a new link.';
+            messageBox.className = 'message error';
+        }
+
+        resetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPassword = document.getElementById('new-password').value;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Saving...';
+            messageBox.className = 'message';
+
+            try {
+                const response = await fetch(`${WORKER_URL}/auth/reset-password/confirm`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, newPassword })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to reset password.');
+                }
+
+                setupView.style.display = 'none';
+                messageBox.textContent = '✅ Password successfully changed! You can safely leave this page and log in.';
+                messageBox.className = 'message success';
+            } catch (err) {
+                messageBox.textContent = err.message;
+                messageBox.className = 'message error';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Reset Password';
+            }
+        });
+    </script>
+</body>
+</html>
