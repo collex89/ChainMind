@@ -697,11 +697,9 @@
         restoreSubscription,
         DocumentParser,
         Extractor,
-        formatAsTweets,
         getUploadedText: () => uploadedDocText,
         getUploadedFileName: () => uploadedFileName,
         SUBSCRIPTION_PRICE,
-        DOC_TEMPLATES,
     };
 
 })();
